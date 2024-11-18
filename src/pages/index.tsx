@@ -7,7 +7,7 @@ import test from "./test";
 import Footerc from "./footer";
 import PantallaCurso from "./msdocente";
 import Curso from "./cursowindow";
-
+import CreateUser from "./crearUsuario"
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -28,10 +28,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-  
-       {/*<Login></Login>*/}        
+      {/*<CreateUser></CreateUser>*/}
+       <Login></Login>      
        {/*<PantallaCurso></PantallaCurso>*/}
-      <Curso></Curso>
+      {/*<Curso></Curso>*/}
       
       <footer className="mt-auto">
       <Footerc></Footerc>

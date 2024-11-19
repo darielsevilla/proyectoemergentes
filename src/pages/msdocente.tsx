@@ -1,5 +1,7 @@
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { useState } from 'react';
+import Footerc from './footer';
+import Link from "next/link"
 
 
 export default function PantallaCurso(){
@@ -26,7 +28,9 @@ export default function PantallaCurso(){
     ]);
     const cards = () => {
         return(<>
-        {list.map((course)=><div key={course.id}>
+        {list.map((course)=>
+        
+        <Link href="/cursowindow" key={course.id}>
             <div className="card mb-3" >
             <div className="row g-0">
                 <div className="col-md-4">
@@ -59,7 +63,8 @@ export default function PantallaCurso(){
                     </div>
                 </div>
             </div>
-            </div>)}
+            </Link>
+            )}
                 
         </>);
     }
@@ -70,6 +75,7 @@ export default function PantallaCurso(){
                 <input type="text" className="form-control" placeholder="Busca un curso" aria-label="Username" aria-describedby="addon-wrapping" />
                 <button className="input-group-text" id="addon-wrapping"><img width="20px" height="20px" src = "./imagenes/search.png"></img></button>
                 </div>
+                
                 {cards()}
             </div>
         </>);
@@ -157,6 +163,7 @@ export default function PantallaCurso(){
 </div>
                 </div>
         
+        
         </>);
     }
 
@@ -216,7 +223,9 @@ export default function PantallaCurso(){
             </Sidebar>
 
             {menuChoice()} 
-        </div>           
+       
+        </div>   
+        <Footerc></Footerc>        
         </>
     );
 }

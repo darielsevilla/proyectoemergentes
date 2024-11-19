@@ -70,6 +70,19 @@ html, body {
     position: absolute;
 }
 
+.containerCrear{
+    align-self: center I !important;
+    width: 100%;
+    margin: 20px;
+    max-width: 700px;
+    height: auto;
+
+}
+
+
+.widthField{
+    max-width: 60%;
+}
 body{
     background-color: #2E2E2E !important;
     font-family: 'inter' !important;
@@ -119,6 +132,7 @@ body{
     margin: 0;
 }
 
+
 .flex{
     display: flex;
     gap: 5px;
@@ -129,13 +143,22 @@ body{
     align-items: stretch;
 }
 
-
+.margin-5pc{
+    margin-top: 5%;
+}
 .margint{
     margin-top: 10%;
 }
 .buttonLogin{
     color: black !important; 
     background-color: #D6974F !important;
+    border-color: #D6974F !important;
+}
+
+.bottonRegister{
+    color: black !important; 
+    background-color:  #B0E0E6 !important;
+    border-color:  #B0E0E6 !important;
 }
 .cardWidth{
     width: 60% !important;
@@ -185,7 +208,8 @@ body{
 .formMargin{
     margin: 20px;
     width: 100%;
-    height: 100vh;
+    height: auto;
     border-radius: 20px;
+    padding: 50px !important;
 }
 

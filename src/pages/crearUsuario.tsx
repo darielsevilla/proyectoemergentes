@@ -89,21 +89,33 @@ export default function Createuser(){
         setUser((user)=>({...user, role: param}))
     }
 
-    const sendData = async() => {
+    const sendData = async(event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      console.log("Datos enviados en el body:", JSON.stringify(user)); // Imprime el contenido del body
         try {
-            
-            const response = await fetch("http://localhost:4000/createUser", {
+
+          const params = new URLSearchParams();
+          params.append("name", user.name);
+          params.append("lastName", user.lastName);
+          params.append("mail", user.mail);
+          params.append("userName", user.username);
+          params.append("password", user.password);
+          params.append("institutionID", user.institutionID);
+          params.append("role", user.role);
+
+              const response = await fetch("http://localhost:3001/signUp", {
               method: "POST",
               mode: "cors",
               headers: {
-                "Content-Type": "application/json"
+                'Content-Type' : 'application/x-www-form-urlencoded',
+                'Access-Control-Allow-Origin' : '*'
               },
-              body: JSON.stringify(user)
+              body: params.toString(),
             });
             setResponse(response.status);
+            console.log("Estado de la respuesta:", response.status);
           } catch (e) {
             console.log(e);
-        
           }
     }
     return(

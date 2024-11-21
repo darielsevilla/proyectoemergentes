@@ -3,6 +3,9 @@
     
 }
 
+.height-100{
+    flex-grow: 1;
+}
 .contAtt{
     align-items: center;
 }
@@ -59,7 +62,9 @@ html, body {
     width: 75px;
 }
 
-
+.testBorder{
+    border: 5px solid black;
+}
 .bottomBar{
     width: 100%;
     height: 400px;
@@ -87,6 +92,13 @@ body{
     background-color: #2E2E2E !important;
     font-family: 'inter' !important;
     margin: 0;
+}
+.colorResults{
+    color: #295A83;
+}
+.flexVertical{
+    display: flex;
+    flex-direction: column;
 }
 .loginContainer{
     width: 100vw;
@@ -213,3 +225,13 @@ body{
     padding: 50px !important;
 }
 
+
+.customModal .modal-content{
+    background-color: #CFCBCB;
+    color: darkgreen;
+}
+
+.customModalError .modal-content{
+    background-color: #CFCBCB;
+    color: red;
+}

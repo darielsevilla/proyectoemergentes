@@ -1,25 +1,64 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import Footerc from "./footer";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Link from 'next/link'
 
-
-const Modal = () =>{
-    return(<div className="modal">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-body">
-        <p>Usuario creado correctamente</p>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>);
-}
 export default function Createuser(){
+    const [show, setShow] = useState(false);
+    const [showError, setShowError] = useState(false);
 
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+  
+    const handleCloseError = () => setShowError(false);
+    const handleShowError = () => setShowError(true);
+    const CustomModal=()=> {
+        
+        return (
+          <div className="lightbg">
+            
+      
+            <Modal className="customModal" show={show} backdrop="static" onHide={handleClose}>
+              <Modal.Header>
+                <Modal.Title>Felicidades!</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>Te registraste exitosamente!</Modal.Body>
+              <Modal.Footer>
+                <Link href="/login">
+                <Button variant="success" onClick={handleClose}>
+                  Regresar
+                </Button>
+                </Link>
+              </Modal.Footer>
+            </Modal>
+          </div>
+        );
+      }
+    
+    const CustomModalError=()=> {
+        
+        return (
+          <div className="lightbg">
+            
+      
+            <Modal className="customModalError" show={showError} backdrop="static" onHide={handleCloseError}>
+              <Modal.Header>
+                <Modal.Title>Error!</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>No se pudo crear el usuario!</Modal.Body>
+              <Modal.Footer>
+                
+                <Button variant="success" onClick={handleCloseError}>
+                  Regresar
+                </Button>
+             
+              </Modal.Footer>
+            </Modal>
+          </div>
+        );
+      }
     interface user{
         name: string;
         lastName: string;
@@ -91,6 +130,8 @@ export default function Createuser(){
 
     const sendData = async(event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      
+      
       console.log("Datos enviados en el body:", JSON.stringify(user)); // Imprime el contenido del body
         try {
 
@@ -113,6 +154,11 @@ export default function Createuser(){
               body: params.toString(),
             });
             setResponse(response.status);
+            if(response.status == 200){
+                handleShow();
+            }else if(response.status==402){
+                handleShowError()
+            }
             console.log("Estado de la respuesta:", response.status);
           } catch (e) {
             console.log(e);
@@ -163,12 +209,14 @@ export default function Createuser(){
                     <option value="Docente">Docente</option>
                     <option value="Jefe">Jefe Academico</option>
                 </select>
-
-                <button type="submit" className="btn btn-primary form-control buttonLogin margin-5pc"><b>Registrarse</b></button>
+                <div >
+                    <button type="submit" className="btn btn-primary form-control buttonLogin margin-5pc"><b>Registrarse</b></button>
+                    </div>
                 </form>
-              
+
             </div>
             </div>
+            {CustomModal()}
             <Footerc></Footerc>
         </>
         

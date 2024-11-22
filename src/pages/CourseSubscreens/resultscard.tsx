@@ -1,5 +1,5 @@
 import Card from 'react-bootstrap/Card';
-import {courses, setCourses} from '@/data/data';
+import {variables} from '@/data/data';
 import { CircularProgressBar } from "react-percentage-bar";
 
 interface CourseInfo{

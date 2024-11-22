@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Footerc from "./footer";
 import {useState,useEffect} from "react"
+import {variables} from "@/data/data"
 import axios from 'axios';
 import { useRouter } from "next/router";
 
@@ -29,11 +30,43 @@ export default function Login() {
 
         axios.post(url, body, config).then((res)=>{
             if (res.status === 200) {
+                
                 localStorage.setItem('userName', res.data.user.userName);
                 localStorage.setItem('name', res.data.user.name);
                 localStorage.setItem('lastName', res.data.user.lastName);
                 localStorage.setItem('role', res.data.user.role);
-                router.push('/msdocente');
+               
+                
+                variables.userInfo = {
+                    id: res.data.user.id,
+                    name: res.data.user.name,
+                    userName: res.data.user.userName,
+                    lastName: res.data.user.lastName,
+                    role: res.data.user.role,
+                    institutionID: res.data.user.institutionID
+                }   
+
+                //actualizar cursos
+                variables.courses = res.data.courses.map((course: any) => ({
+                    id: course._id, 
+                    img: course.image,
+                    creator: course.user_name,
+                    description: course.description,
+                    name: course.name,
+                    timeCreated: course.creationDate, 
+                    units: course.units,
+                    completionRequirement: course.completionRequirement,
+                    institutionID: course.institutionID
+                }));
+
+                if(variables.userInfo?.role == "Docente"){
+                    
+                    router.push('/msdocente');
+                }else{
+                    router.push('/AcademicChief/msjefe');
+                }
+               
+                
             } else {
                 console.error("Error en la respuesta del servidor:", res.data.message);
             }

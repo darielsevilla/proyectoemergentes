@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import { CircularProgressBar } from "react-percentage-bar";
 import Card from 'react-bootstrap/Card';
-import {courses, setCourses} from '@/data/data';
+import {variables} from '@/data/data';
 import ResultsCard from './resultscard';
 
 

@@ -88,6 +88,9 @@ html, body {
 .widthField{
     max-width: 60%;
 }
+a{
+    text-decoration: none !important;
+}
 body{
     background-color: #2E2E2E !important;
     font-family: 'inter' !important;

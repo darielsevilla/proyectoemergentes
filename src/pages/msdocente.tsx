@@ -2,6 +2,7 @@ import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { useState } from 'react';
 import Footerc from './footer';
 import Link from "next/link"
+import {variables} from "@/data/data"
 
 
 export default function PantallaCurso(){
@@ -28,7 +29,7 @@ export default function PantallaCurso(){
     ]);
     const cards = () => {
         return(<>
-        {list.map((course)=>
+        {variables.courses.map((course)=>
         
         <Link href="/cursowindow" key={course.id}>
             <div className="card mb-3" >
@@ -49,11 +50,6 @@ export default function PantallaCurso(){
                         <div className='flex contAtt'>
                             <img src="./iconosCurso/units_icon.png" width={15} height={15}></img>
                             <p className='fontSizeCourse'>{course.units} unidades</p>
-                        </div>
-    
-                        <div className='flex contAtt'>
-                            <img src="./iconosCurso/people_icon.png" width={15} height={15}></img>
-                            <p className='fontSizeCourse'>{course.people} personas tomando el curso</p>
                         </div>
     
     

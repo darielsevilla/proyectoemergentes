@@ -1,8 +1,8 @@
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { useState } from 'react';
 import UnitInfo from './CourseSubscreens/unitinfo';
-import {courses, setCourses} from '@/data/data';
-import {userInfo, setUserInfo} from '@/data/data'
+
+import {variables} from '@/data/data'
 export default function Curso(){
 
 
@@ -40,7 +40,7 @@ export default function Curso(){
         }
         if(menu == 2){
             return(
-                <UnitInfo courseID = {"unt123"} unitID={1}></UnitInfo>
+                <UnitInfo courseID = {1}  unitID={1}></UnitInfo>
             );
             
         }

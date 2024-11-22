@@ -3,19 +3,37 @@ interface course{
     id: number;
     img : string;
     creator : string;
+    description: string;
     name : string;
     timeCreated : string;
     units : number;
     people : number;
     completionRequirement: number;
+    institutionID: string;
 }
 
 interface user{
+    id: string,
     name: string,
-    username: string,
-    password: string
+    userName: string,
+    lastName: string
+    role: string,
+    institutionID: string,
 }
 
-export const [courses, setCourses] = useState<course[]>([])
+interface institution{
+    institutionID: number,
+    institutionName: string,
+    institutionPhone: string,
+    institutionAdress: string,
+    institutionCity: string,
+    institutionCountry: string
+}
 
-export const [userInfo, setUserInfo] = useState(null)
+
+//variables globales
+export const variables = {
+    courses: [] as course[],
+    userInfo: undefined as user | undefined,
+    institutionInfo: undefined as institution | undefined,
+}

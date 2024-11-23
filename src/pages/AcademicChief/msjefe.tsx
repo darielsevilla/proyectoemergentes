@@ -32,7 +32,7 @@ export default function VentanaJefe(){
     }
     return(<>
         <div className='flex'>
-            <Sidebar className='autoheight lightbg'>
+            <Sidebar className='autoheight lightbg min-height-100'>
                 <div className='topTag'>
                     <img width= '50px' height='50px' src = "/imagenes/icono.png"></img>
                     <p>SmartLearn</p>

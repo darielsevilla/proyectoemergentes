@@ -33,8 +33,7 @@ export default function Home() {
 
       </Head>
       <Login></Login>     
-      
-      <VentanaJefe></VentanaJefe>
+    
 
       
     

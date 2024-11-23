@@ -1,8 +1,9 @@
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { useState } from 'react';
 import UnitInfo from './CourseSubscreens/unitinfo';
-
 import {variables} from '@/data/data'
+import FlashCardScreen from './CourseSubscreens/flashcardscreen';
+import { SummaryWindow } from './CourseSubscreens/summaries';
 export default function Curso(){
 
 
@@ -43,11 +44,16 @@ export default function Curso(){
                 <UnitInfo courseID = {1}  unitID={1}></UnitInfo>
             );
             
+        }else if(menu == 4){
+            return(<FlashCardScreen></FlashCardScreen>);
+
+        }else if(menu == 5){
+            return(<SummaryWindow></SummaryWindow>);
         }
     }
     return(<>
         <div className='flex'>
-            <Sidebar className='autoheight lightbg'>
+            <Sidebar className='height-100 min-height-100 lightbg'>
                 <div className='topTag'>
                     <img width= '50px' height='50px' src = "./imagenes/icono.png"></img>
                     <p>SmartLearn</p>
@@ -70,7 +76,7 @@ export default function Curso(){
                             Preguntas
                         </MenuItem>
                         <MenuItem onClick={onClick4} icon = {<img width= '24px' height='24px' src = "./imagenes/recursos_icon.png"></img>}>
-                            Vocabulario
+                            Flash Cards
                         </MenuItem>
                         <MenuItem onClick={onClick5} icon = {<img width= '24px' height='24px' src = "./imagenes/recursos_icon.png"></img>}>
                             Resumen
@@ -80,7 +86,9 @@ export default function Curso(){
                     
                 </Menu>
             </Sidebar>
-            {menuOptions()}
+            <div className = 'container'>
+                {menuOptions()}
+            </div>
             
         </div>
     </>);

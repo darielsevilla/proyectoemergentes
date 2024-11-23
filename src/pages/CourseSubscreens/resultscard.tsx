@@ -1,10 +1,11 @@
 import Card from 'react-bootstrap/Card';
 import {variables} from '@/data/data';
 import { CircularProgressBar } from "react-percentage-bar";
-
+import axios from 'axios';
 interface CourseInfo{
     courseID : number
 }
+
 
 
 export default function ResultsCard({courseID}:CourseInfo){
@@ -28,9 +29,10 @@ export default function ResultsCard({courseID}:CourseInfo){
                     <Card.Title><h2>Resultados de ultima evaluacion: 40%</h2></Card.Title>
                     <Card.Title><h2>Requerimiento de aprobacion: 80%</h2></Card.Title>
                 </div>
-                
             </Card.Body>
         </Card>
+
+
     </div>
     </>
     );

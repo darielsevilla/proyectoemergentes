@@ -2,6 +2,7 @@ import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { useState } from 'react';
 import Footerc from './footer';
 import Link from "next/link"
+import {variables} from "@/data/data"
 
 
 export default function PantallaCurso(){
@@ -28,7 +29,7 @@ export default function PantallaCurso(){
     ]);
     const cards = () => {
         return(<>
-        {list.map((course)=>
+        {variables.courses.map((course)=>
         
         <Link href="/cursowindow" key={course.id}>
             <div className="card mb-3" >
@@ -50,14 +51,7 @@ export default function PantallaCurso(){
                             <img src="./iconosCurso/units_icon.png" width={15} height={15}></img>
                             <p className='fontSizeCourse'>{course.units} unidades</p>
                         </div>
-    
-                        <div className='flex contAtt'>
-                            <img src="./iconosCurso/people_icon.png" width={15} height={15}></img>
-                            <p className='fontSizeCourse'>{course.people} personas tomando el curso</p>
-                        </div>
-    
-    
-    
+
                         
                     </div>
                     </div>
@@ -198,7 +192,7 @@ export default function PantallaCurso(){
     return(
         <>  
         <div className='flex'>
-            <Sidebar className='autoheight lightbg'>
+            <Sidebar className='autoheight lightbg min-height-100'>
                 <div className='topTag'>
                     <img width= '50px' height='50px' src = "./imagenes/icono.png"></img>
                     <p>SmartLearn</p>

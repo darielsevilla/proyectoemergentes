@@ -2,7 +2,24 @@
     background-color: #CFCBCB;
     
 }
+.cardClass{
+    padding: 20px !important;
+    margin: 20px;
+    justify-content: center;
+}
 
+
+
+.whitetxt{
+    color: white !important;
+}
+
+.height-100{
+    flex-grow: 1;
+}
+.min-height-100{
+    min-height: 100vh;
+}
 .contAtt{
     align-items: center;
 }
@@ -33,7 +50,7 @@
 }
 
 .autoheight{
-    height: 100vh; /* Covers the full viewport height */
+    height: 100vh; 
     display: flex;
     flex-direction: column;
 }
@@ -59,7 +76,9 @@ html, body {
     width: 75px;
 }
 
-
+.testBorder{
+    border: 5px solid black;
+}
 .bottomBar{
     width: 100%;
     height: 400px;
@@ -83,14 +102,27 @@ html, body {
 .widthField{
     max-width: 60%;
 }
+a{
+    text-decoration: none !important;
+}
 body{
     background-color: #2E2E2E !important;
     font-family: 'inter' !important;
     margin: 0;
 }
+.colorResults{
+    color: #295A83;
+}
+.flexVertical{
+    display: flex;
+    flex-direction: column;
+}
 .loginContainer{
     width: 100vw;
     height: 92vh;
+}
+.justified-text{
+    text-align: justify;
 }
 .loginWindow{
     align-items: center;
@@ -134,7 +166,7 @@ body{
 
 
 .flex{
-    display: flex;
+    display: flex !important;
     gap: 5px;
 }
 
@@ -144,7 +176,7 @@ body{
 }
 
 .margin-5pc{
-    margin-top: 5%;
+    margin-top: 5% !important;
 }
 .margint{
     margin-top: 10%;
@@ -169,6 +201,14 @@ body{
     padding:20px;
 }
 
+.sideContainer{
+    width:auto;
+    padding: 20px;
+}
+
+.pb-width{
+    width: 100% !important;
+}
 
 .border{
     border: 5px solid black;
@@ -213,3 +253,72 @@ body{
     padding: 50px !important;
 }
 
+
+.customModal .modal-content{
+    background-color: #CFCBCB;
+    color: darkgreen;
+}
+
+.customModalError .modal-content{
+    background-color: #CFCBCB;
+    color: red;
+}
+
+.bottomCardUnit{
+    min-height: 500px !important;
+    background-color: #3B3939 !important;
+}
+
+.fc-questions{
+    padding-top: 5% !important;
+    background-color: #3B3939 !important;
+    height: 700px !important;
+    display: flex !important;
+    flex-direction: column !important;
+
+    align-items: center;
+    padding: 10px;
+    
+}
+
+.fc-questions-cont{
+    margin-left: 15%;
+    margin-right: 15%;
+    width: auto;
+}
+
+
+.flashCard{
+    background-color: white !important;
+    color: black;
+    min-height: 300px;
+    width: 500px !important;
+    cursor: pointer;
+}
+
+.titleSummaries { 
+    background-color: #D6974F;
+    white-space: nowrap; 
+    display: flex; 
+    flex-direction: column; 
+    height: 50px; 
+    width: 300px; 
+    border-radius: 20px; 
+    justify-content: center; 
+    text-align: center; 
+    align-items: center; 
+}
+.summaries{
+    width: 100%;
+    min-height: 300px;
+    color: black;
+    background-color: white;
+    border-radius: 20px; 
+    text-align: justify;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.titleSummaries h4{
+    margin:0;
+}

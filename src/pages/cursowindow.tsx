@@ -4,6 +4,8 @@ import UnitInfo from './CourseSubscreens/unitinfo';
 import {variables} from '@/data/data'
 import FlashCardScreen from './CourseSubscreens/flashcardscreen';
 import { SummaryWindow } from './CourseSubscreens/summaries';
+import Questions from './CourseSubscreens/questions';
+import Exams from './CourseSubscreens/exams';
 export default function Curso(){
 
 
@@ -35,15 +37,15 @@ export default function Curso(){
     }
     const menuOptions = () =>{
         if(menu == 1){
-            return(
-            <></>
-            );
+            return(<Exams></Exams>);
         }
         if(menu == 2){
             return(
                 <UnitInfo courseID = {1}  unitID={1}></UnitInfo>
             );
             
+        }else if(menu == 3){
+            return(<Questions></Questions>);
         }else if(menu == 4){
             return(<FlashCardScreen></FlashCardScreen>);
 

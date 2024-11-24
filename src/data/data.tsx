@@ -103,3 +103,30 @@ interface summary{
 export const summaries={
     summaries: [] as summary[]
 }
+
+export const questions = [
+    {
+      question: "Pregunta1",
+      option1: "op1",
+      option2: "op2",
+      option3: "op3",
+      option4: "op4",
+      rightAnswer: 1
+    },
+    {
+      question: "Pregunta2",
+      option1: "op1-2",
+      option2: "op2-2",
+      option3: "op3-2",
+      option4: "op4-2",
+      rightAnswer: 1
+    },
+    {
+      question: "Pregunta3",
+      option1: "op1-3",
+      option2: "op2-3",
+      option3: "op3-3",
+      option4: "op4-3",
+      rightAnswer: 1
+    }
+  ];

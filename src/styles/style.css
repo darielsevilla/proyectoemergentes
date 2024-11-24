@@ -322,3 +322,46 @@ body{
 .titleSummaries h4{
     margin:0;
 }
+
+.quiz {
+    padding: 20px;
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; 
+  }
+
+.quiz_container{
+    background-color: #3B3939;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.question_button{
+        display: flex;
+        justify-content: center; 
+        gap: 50px; 
+        margin: 5%; 
+}
+
+.no_more_questions{
+    background-color: #3B3939;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.evaluacion {
+    padding: 20px;
+    background-color: #3B3939;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.quiz_header{
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; 
+}

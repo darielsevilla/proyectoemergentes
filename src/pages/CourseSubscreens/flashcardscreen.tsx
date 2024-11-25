@@ -7,36 +7,53 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-
-
-
-
-function FlashCardCarousel() {
-  return (
-    <Carousel className="margin-5pc" fade>
-      <Carousel.Item className="loginWindow flex" >
-
-        <FlashCard word="Programacion" definition="El proceso de crear un conjunto de instrucciones que una computadora puede seguir para realizar tareas específicas. Este proceso implica el uso de lenguajes de programación"></FlashCard>
-  
-      </Carousel.Item>
-      <Carousel.Item className="loginWindow flex" >
-
-        <FlashCard word="Programacion" definition="El proceso de crear un conjunto de instrucciones que una computadora puede seguir para realizar tareas específicas. Este proceso implica el uso de lenguajes de programación"></FlashCard>
-  
-      </Carousel.Item>
-      <Carousel.Item className="loginWindow flex" >
-
-        <FlashCard word="Programacion" definition="El proceso de crear un conjunto de instrucciones que una computadora puede seguir para realizar tareas específicas. Este proceso implica el uso de lenguajes de programación"></FlashCard>
-  
-      </Carousel.Item>
-    </Carousel>
-  );
-}
-
+import axios from "axios";
+import Spinner from 'react-bootstrap/Spinner'
 
 
 
 export default function FlashCardScreen(){
+    interface Flashcard{
+        word: string;
+        definition: string;
+    }
+    const [flashcardList, setFlashcardList] = useState<Flashcard[]>([]);
+    const [loaded, setLoaded] = useState(false);
+    const loadInfo = async () =>{
+        const config = {
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded',
+                'Access-Control-Allow-Origin' : '*'
+            }
+        }
+        const item = localStorage.getItem("currentCourse")
+        
+        const body={
+            courseId: item ? item : ""
+        }
+        let url = "http://localhost:3001/getFlashcards";
+   
+        const response = await axios.post(url, body, config);
+  
+        const newList = response.data.flashcards.map((vocab : any)=>({
+            word : vocab.word,
+            definition : vocab.definition,
+        }))
+        setFlashcardList(newList)
+        setLoaded(true)       
+    }
+
+    function FlashCardCarousel() {
+        return (
+          <Carousel className="margin-5pc" fade>
+            {flashcardList?.map((flashcard)=><Carousel.Item key={flashcard.word} className="loginWindow flex" >
+                <FlashCard word={flashcard.word} definition={flashcard.definition}></FlashCard>
+            </Carousel.Item>)}
+            
+            
+          </Carousel>
+        );
+    }
     //useStates for the vocab game
     const [completion, setCompletion] = useState(0);
     const [monitor, setMonitor] = useState(0);
@@ -200,8 +217,14 @@ export default function FlashCardScreen(){
     }
     useEffect(()=>{
         setArray((prevArray) => shuffleArray(prevArray));
+        loadInfo();
     },[])
 
+    if(!loaded){
+        return(<><div className="container flexVertical loginWindow ">
+            <Spinner animation="border" className="whitetxt margint"/>
+            </div></>)
+    }
     return(<div className="container height-100 whitetxt">
 
         <h1><b>Flash Cards</b></h1>

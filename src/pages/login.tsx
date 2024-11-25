@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Footerc from "./footer";
 import {useState,useEffect} from "react"
-import {variables} from "@/data/data"
 import axios from 'axios';
 import { useRouter } from "next/router";
 
@@ -15,7 +14,7 @@ export default function Login() {
    
     const realizarPeticion = async() => {
         let url = "http://localhost:3001/logIn";
-
+      
         const body = {
             userName: userName,
             password: password
@@ -35,19 +34,12 @@ export default function Login() {
                 localStorage.setItem('name', res.data.user.name);
                 localStorage.setItem('lastName', res.data.user.lastName);
                 localStorage.setItem('role', res.data.user.role);
-               
+                localStorage.setItem('institutionID', res.data.user.institutionID);
                 
-                variables.userInfo = {
-                    id: res.data.user.id,
-                    name: res.data.user.name,
-                    userName: res.data.user.userName,
-                    lastName: res.data.user.lastName,
-                    role: res.data.user.role,
-                    institutionID: res.data.user.institutionID
-                }   
+                
 
                 //actualizar cursos
-                variables.courses = res.data.courses.map((course: any) => ({
+                const courses = res.data.courses.map((course: any) => ({
                     id: course._id, 
                     img: course.image,
                     creator: course.user_name,
@@ -58,8 +50,8 @@ export default function Login() {
                     completionRequirement: course.completionRequirement,
                     institutionID: course.institutionID
                 }));
-
-                if(variables.userInfo?.role == "Docente"){
+                localStorage.setItem('courses', JSON.stringify(courses));
+                if(res.data.user.role == "Docente"){
                     
                     router.push('/msdocente');
                 }else{

@@ -1,8 +1,8 @@
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Footerc from './footer';
 import Link from "next/link"
-import {variables} from "@/data/data"
+import {variables, courseInfo} from "@/data/data"
 
 
 export default function PantallaCurso(){
@@ -16,22 +16,21 @@ export default function PantallaCurso(){
         people : number;
     }
 
-    const [list,setList] = useState<course[]>([
-        {
-            id: "eed143",
-            img: "./imagenesCurso/data_structures_cover.jpg",
-            creator : "Reynod Bocanegra",
-            name : "Estructura de datos 1",
-            timeCreated: "2 years",
-            units: 5,
-            people: 4
-        }   
-    ]);
+    const [list, setList] = useState<course[]>([])
+    useEffect(()=>{
+       const item = localStorage.getItem('courses')
+        const list2 = item ? JSON.parse(item) : [];
+        setList(list2)
+    },[])
+    const handleClick = (id : string) =>{
+        localStorage.setItem("currentCourse", id);
+    }
     const cards = () => {
+       
         return(<>
-        {variables.courses.map((course)=>
+        {list.map((course : any)=>
         
-        <Link href="/cursowindow" key={course.id}>
+        <Link onClick={() => handleClick(course.id)} href="/cursowindow" key={course.id}>
             <div className="card mb-3" >
             <div className="row g-0">
                 <div className="col-md-4">

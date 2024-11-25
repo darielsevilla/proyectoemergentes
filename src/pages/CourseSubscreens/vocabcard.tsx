@@ -5,17 +5,17 @@ interface data{
     definition: string,
     img: string
 }
-export default function VocabCard(){
+export default function VocabCard({word, definition, img}:data){
     return(
-        <Card className="text-center bottomCardUnit whitetxt cardClass">
+        <Card key ={word} className="text-center bottomCardUnit whitetxt cardClass cardClickeable">
       
       <Card.Body>
-        <Card.Title><h1><b>Special title treatment</b></h1></Card.Title>
+        <Card.Title><h1><b>{word}</b></h1></Card.Title>
         <Card.Text>
-          With supporting text below as a natural lead-in to additional content.
+          {definition}
         </Card.Text>
      
-        <img src="/imagenesCurso/data_structures_cover.jpg" width="30%" className='imgCard'></img>
+        <img src={img} width="30%" className='imgCard'></img>
         
         
       </Card.Body>

@@ -1,6 +1,6 @@
 import {useState} from 'react'
 interface course{
-    id: number;
+    id: string;
     img : string;
     creator : string;
     description: string;
@@ -130,3 +130,14 @@ export const questions = [
       rightAnswer: 1
     }
   ];
+
+//variables relacionadas a info de unidades 
+interface infoUnit{
+    unitNumber: string,
+    idCourse : string,
+}
+
+export const courseInfo={
+    units: [] as infoUnit[],
+    courseID: undefined as string | undefined
+}

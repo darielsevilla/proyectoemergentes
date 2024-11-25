@@ -3,7 +3,7 @@ import {variables} from '@/data/data';
 import { CircularProgressBar } from "react-percentage-bar";
 import axios from 'axios';
 interface CourseInfo{
-    courseID : number
+    courseID : string
 }
 
 
@@ -26,7 +26,7 @@ export default function ResultsCard({courseID}:CourseInfo){
                 percentage={60}
                 />
                 <div className=' height-100 loginWindow flexVertical colorResults'>
-                    <Card.Title><h2>Resultados de ultima evaluacion: 40%</h2></Card.Title>
+                    <Card.Title><h2>Resultados de ultima evaluacion: 60%</h2></Card.Title>
                     <Card.Title><h2>Requerimiento de aprobacion: 80%</h2></Card.Title>
                 </div>
             </Card.Body>

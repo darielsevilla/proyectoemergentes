@@ -8,6 +8,7 @@ export default function Questions(){
     const [monitor, setMonitor] = useState(0);
     const [question, setQuestion] = useState(1);
     const [correct, setCorrect] = useState(0);
+    const [maxima, setMaxima] = useState(0);
     const [answered, setAnswered] = useState<boolean[]>([false, false, false]);
 
     //array of numbers
@@ -32,7 +33,7 @@ export default function Questions(){
     
     const answer = () =>{
         if(monitor === questions.at(question-1)?.rightAnswer && !answered[question-1]){
-            setRacha(racha+25)
+            setRacha(racha+1)
             setCorrect(1);
             setAnswered((prev) => {
                 const newAnswered = [...prev];
@@ -40,6 +41,9 @@ export default function Questions(){
                 return newAnswered;
             });
         }else if(!answered[question-1]){
+            if(racha > maxima){
+                setMaxima(racha);
+            }
             setRacha(0);
             setCorrect(-1);
         }
@@ -141,7 +145,7 @@ export default function Questions(){
     return(<div className="container height-100 whitetxt">
         <div className="quiz">
             <h1><b>Preguntas</b></h1>
-            <p>Racha máxima: <span id="max-streak">0</span><br/>Racha actual: <span id="current-streak">{racha}</span></p>
+            <p>Racha máxima: <span id="max-streak">{maxima}</span><br/>Racha actual: <span id="current-streak">{racha}</span></p>
         </div>
         {questionsTab(array[question-1])}
     </div>);

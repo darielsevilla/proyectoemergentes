@@ -232,6 +232,7 @@ export default function Createuser(){
                 </select>
                 <div >
                     <button type="submit" className="btn btn-primary form-control buttonLogin margin-5pc"><b>Registrarse</b></button>
+                    <Link href="/login"><button className="btn btn-primary margin-5pc form-control bottonRegister"><b>Inicia Sesión</b></button> </Link>
                     </div>
                 </form>
 

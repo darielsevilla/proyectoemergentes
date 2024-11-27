@@ -12,12 +12,38 @@ export default function Login() {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
    
+    const logInFireBase = async() => {
+        let url = "http://localhost:3001/logInFirebase";
+      
+        const body = {
+            mail: userName,
+            password: password
+        }
+
+        const config = {
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded',
+                'Access-Control-Allow-Origin' : '*'
+            }
+        }
+
+        axios.post(url, body, config).then((res)=>{
+            if (res.status === 200) {
+                realizarPeticion();
+            } else {
+                console.error("Error en la respuesta del servidor:", res.data.message);
+            }
+        }).catch((error)=> {
+            console.log("Error en la peticion", error.response.data.descripcion);
+        });
+        console.log("Peticion realizada");
+    }
+
     const realizarPeticion = async() => {
         let url = "http://localhost:3001/logIn";
       
         const body = {
-            userName: userName,
-            password: password
+            mail: userName
         }
 
         const config = {
@@ -95,7 +121,7 @@ export default function Login() {
             <h6 className="card-text margint"><b>Contraseña</b></h6>
             <input className="form-control" type="text" placeholder="Ingrese contraseña" aria-label="default input example" onChange={(event) => setPassword(event.target.value)}/>
             
-            <button className="btn btn-primary margint form-control buttonLogin" onClick={realizarPeticion}><b>Iniciar Sesión</b></button>
+            <button className="btn btn-primary margint form-control buttonLogin" onClick={logInFireBase}><b>Iniciar Sesión</b></button>
             <Link href="/crearUsuario"><button className="btn btn-primary margin-5pc form-control bottonRegister"><b>Registrate</b></button> </Link>   
         </div>
         </div>

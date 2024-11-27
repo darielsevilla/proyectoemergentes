@@ -135,14 +135,35 @@ export default function Createuser(){
       console.log("Datos enviados en el body:", JSON.stringify(user)); // Imprime el contenido del body
         try {
 
+          const params2 = new URLSearchParams();
+          params2.append("email", user.mail);
+          params2.append("password", user.password);
+
           const params = new URLSearchParams();
           params.append("name", user.name);
           params.append("lastName", user.lastName);
           params.append("mail", user.mail);
           params.append("userName", user.username);
-          params.append("password", user.password);
+          //params.append("password", user.password);
           params.append("institutionID", user.institutionID);
           params.append("role", user.role);
+
+          const response2 = await fetch("http://localhost:3001/signUpFirebase", {
+              method: "POST",
+              mode: "cors",
+              headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded',
+                'Access-Control-Allow-Origin' : '*'
+              },
+              body: params2.toString(),
+          });
+          setResponse(response2.status);
+            if(response2.status == 200){
+                handleShow();
+            }else if(response2.status==402){
+                handleShowError()
+            }
+            console.log("Estado de la respuesta:", response2.status);
 
               const response = await fetch("http://localhost:3001/signUp", {
               method: "POST",

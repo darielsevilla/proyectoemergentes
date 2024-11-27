@@ -362,6 +362,14 @@ body{
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.monitorSplit{
+    justify-content: space-between;
+}
+
+.colorMonitorTable{
+    background-color: #3B3939 !important;
+}
+
 .quiz_header{
     display: flex; 
     flex-direction: row;

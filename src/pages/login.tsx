@@ -9,14 +9,14 @@ export default function Login() {
     
     const [isMounted, setIsMounted] = useState(false);
 
-    const [userName, setUserName] = useState('');
+    const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
    
     const logInFireBase = async() => {
         let url = "http://localhost:3001/logInFirebase";
       
         const body = {
-            mail: userName,
+            mail: mail,
             password: password
         }
 
@@ -43,7 +43,7 @@ export default function Login() {
         let url = "http://localhost:3001/logIn";
       
         const body = {
-            mail: userName
+            mail: mail
         }
 
         const config = {
@@ -76,6 +76,7 @@ export default function Login() {
                     completionRequirement: course.completionRequirement,
                     institutionID: course.institutionID
                 }));
+                console.log(courses);
                 localStorage.setItem('courses', JSON.stringify(courses));
                 if(res.data.user.role == "Docente"){
                     
@@ -116,10 +117,10 @@ export default function Login() {
 
         <div className="card-body loginCard ">
             <h2 className="card-title"><b>Iniciar Sesión</b></h2>
-            <h6 className="card-text margint"><b>Nombre de usuario</b></h6>
-            <input className="form-control" type="text" placeholder="Ingrese nombre de usuario" aria-label="default input example" onChange={(event) => setUserName(event.target.value)}/>
+            <h6 className="card-text margint"><b>Correo Electrónico</b></h6>
+            <input className="form-control" type="text" placeholder="Ingrese correo electrónico" aria-label="default input example" onChange={(event) => setMail(event.target.value)}/>
             <h6 className="card-text margint"><b>Contraseña</b></h6>
-            <input className="form-control" type="text" placeholder="Ingrese contraseña" aria-label="default input example" onChange={(event) => setPassword(event.target.value)}/>
+            <input className="form-control" type="password" placeholder="Ingrese contraseña" aria-label="default input example" onChange={(event) => setPassword(event.target.value)}/>
             
             <button className="btn btn-primary margint form-control buttonLogin" onClick={logInFireBase}><b>Iniciar Sesión</b></button>
             <Link href="/crearUsuario"><button className="btn btn-primary margin-5pc form-control bottonRegister"><b>Registrate</b></button> </Link>   

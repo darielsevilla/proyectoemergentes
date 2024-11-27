@@ -38,7 +38,7 @@ export default function CreatedCourses(){
         <div className='container'>
             <div className="input-group flex-nowrap barMargin">
             <input type="text" className="form-control" placeholder="Busca un curso" aria-label="Username" aria-describedby="addon-wrapping" />
-            <button className="input-group-text" id="addon-wrapping"><img width="20px" height="20px" src = "./imagenes/search.png"></img></button>
+            <button className="input-group-text" id="addon-wrapping"><img width="20px" height="20px" src = "/imagenes/search.png"></img></button>
             </div>
             
             {cards()}

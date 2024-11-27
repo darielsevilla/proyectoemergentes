@@ -3,11 +3,14 @@ import { useState } from 'react';
 import Footerc from '@/pages/footer';
 import Link from "next/link"
 import CreatedCourses from './jefecursos';
+import Perfil from '../perfil';
+import Monitor from './monitor';
 
 export default function VentanaJefe(){
     const [menu, setMenu] = useState(2);
     const onClick1 = () =>{
-        setMenu(2);
+        setMenu(1);
+        
     }
     
     const onClick2 = () =>{
@@ -25,14 +28,20 @@ export default function VentanaJefe(){
     }
 
     const menuChoice = () =>{
-        if(menu == 2){
+        if(menu == 1){
+            return(<Perfil></Perfil>);
+        }else if(menu == 2){
             return(<CreatedCourses></CreatedCourses>);  
+        }else if(menu == 5){
+            return(<Monitor></Monitor>); 
+        }else{
+            return(<></>);  
         }
-        return(<></>);       
+             
     }
     return(<>
         <div className='flex'>
-            <Sidebar className='autoheight lightbg min-height-100'>
+            <Sidebar className='height-100 lightbg min-height-100'>
                 <div className='topTag'>
                     <img width= '50px' height='50px' src = "/imagenes/icono.png"></img>
                     <p>SmartLearn</p>
@@ -50,15 +59,15 @@ export default function VentanaJefe(){
                     <MenuItem onClick={onClick4} icon = {<img width= '24px' height='24px' src = "/imagenes/more_icon.png"></img>}>
                         Publicar Recursos
                     </MenuItem>
-                    <MenuItem onClick={onClick5} icon = {<img width= '24px' height='24px' src = "/imagenes/chat_icon.png"></img>}>
-                        Chat
+                    <MenuItem onClick={onClick5} icon = {<img width= '24px' height='24px' src = "/imagenes/monitor_icon.png"></img>}>
+                        Monitoreo
                     </MenuItem>
                     
                 </Menu>
             </Sidebar>
-
-            {menuChoice()} 
-       
+            <div className='container'>
+                {menuChoice()} 
+            </div>
         </div>   
         <Footerc></Footerc>        
         </>

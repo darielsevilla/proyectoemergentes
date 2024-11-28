@@ -1,6 +1,70 @@
 import { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Table from 'react-bootstrap/Table';
+import axios from 'axios';
+import Spinner from 'react-bootstrap/Spinner'
+interface params{
+    courseid : string;
+}
+const Tablas = ({courseid} : params) =>{
+
+    const[items, setItems] = useState([]);
+    const[load, setLoad] = useState(0);
+    const loadList = async () =>{
+        try{
+            let url = "http://localhost:3001/getCourseStudents";
+            const itemList = await axios.get(url, {
+                params: {
+                    course_id : courseid
+                }
+            })
+            const list = itemList ? itemList.data.resultado : [];   
+            setItems(list)
+        }catch(error){
+
+        }
+        setLoad(1);
+    }
+    useEffect(()=>{
+        const item = localStorage.getItem('courses')
+        const item2 = item ? JSON.parse(item) : [];
+        loadList();
+
+    },[])
+
+    if(load == 1){
+        return(
+                <>
+                <Table striped variant="dark">
+                    <thead>
+                        <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Nombre de Usuario</th>
+                        <th>% obtenido en evaluación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {items.map((person : any, i : number)=><tr key = {person.username}>
+                                <td>{i+1}</td>
+                                <td>{person.name}</td>
+                                <td>{person.lastName}</td>
+                                <td>{person.userName}</td>
+                                <td>{person.completion}%</td>
+                        </tr>)}   
+                    </tbody>
+                </Table>
+
+                </>
+            );
+    }else{
+        return(<><div className="container flexVertical loginWindow ">
+            <Spinner animation="border" className="whitetxt margint"/>
+            </div></>)
+    }
+    
+}
 
 export default function Monitor(){
     interface Teacher{
@@ -49,36 +113,10 @@ export default function Monitor(){
 
         }
     ]);
+    
 
 
-    const tablas = (courseid : string) =>{
-        const itemList = teachers.filter((item)=>item.course == courseid)
-        return(
-            <>
-            <Table striped variant="dark">
-                <thead>
-                    <tr>
-                    <th>#</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Nombre de Usuario</th>
-                    <th>% obtenido en evaluación</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {itemList.map((person, i )=><tr key = {person.username}>
-                            <td>{i+1}</td>
-                            <td>{person.name}</td>
-                            <td>{person.lastName}</td>
-                            <td>{person.username}</td>
-                            <td>{person.completion}%</td>
-                    </tr>)}   
-                </tbody>
-            </Table>
-
-            </>
-        );
-    }
+    
 
     useEffect(()=>{
         const item = localStorage.getItem('courses')
@@ -96,7 +134,7 @@ export default function Monitor(){
                 <>
                     <h2 className='margin-5pc'>{item.name}</h2>
                     <hr></hr>
-                    {tablas(item.id)}
+                    <Tablas courseid = {item.id}></Tablas>
                 </>)}
         </div>
     </>);

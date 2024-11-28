@@ -9,15 +9,41 @@ export default function Login() {
     
     const [isMounted, setIsMounted] = useState(false);
 
-    const [userName, setUserName] = useState('');
+    const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
    
+    const logInFireBase = async() => {
+        let url = "http://localhost:3001/logInFirebase";
+      
+        const body = {
+            mail: mail,
+            password: password
+        }
+
+        const config = {
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded',
+                'Access-Control-Allow-Origin' : '*'
+            }
+        }
+
+        axios.post(url, body, config).then((res)=>{
+            if (res.status === 200) {
+                realizarPeticion();
+            } else {
+                console.error("Error en la respuesta del servidor:", res.data.message);
+            }
+        }).catch((error)=> {
+            console.log("Error en la peticion", error.response.data.descripcion);
+        });
+        console.log("Peticion realizada");
+    }
+
     const realizarPeticion = async() => {
         let url = "http://localhost:3001/logIn";
       
         const body = {
-            userName: userName,
-            password: password
+            mail: mail
         }
 
         const config = {
@@ -50,6 +76,7 @@ export default function Login() {
                     completionRequirement: course.completionRequirement,
                     institutionID: course.institutionID
                 }));
+                console.log(courses);
                 localStorage.setItem('courses', JSON.stringify(courses));
                 if(res.data.user.role == "Docente"){
                     
@@ -90,12 +117,12 @@ export default function Login() {
 
         <div className="card-body loginCard ">
             <h2 className="card-title"><b>Iniciar Sesión</b></h2>
-            <h6 className="card-text margint"><b>Nombre de usuario</b></h6>
-            <input className="form-control" type="text" placeholder="Ingrese nombre de usuario" aria-label="default input example" onChange={(event) => setUserName(event.target.value)}/>
+            <h6 className="card-text margint"><b>Correo Electrónico</b></h6>
+            <input className="form-control" type="text" placeholder="Ingrese correo electrónico" aria-label="default input example" onChange={(event) => setMail(event.target.value)}/>
             <h6 className="card-text margint"><b>Contraseña</b></h6>
-            <input className="form-control" type="text" placeholder="Ingrese contraseña" aria-label="default input example" onChange={(event) => setPassword(event.target.value)}/>
+            <input className="form-control" type="password" placeholder="Ingrese contraseña" aria-label="default input example" onChange={(event) => setPassword(event.target.value)}/>
             
-            <button className="btn btn-primary margint form-control buttonLogin" onClick={realizarPeticion}><b>Iniciar Sesión</b></button>
+            <button className="btn btn-primary margint form-control buttonLogin" onClick={logInFireBase}><b>Iniciar Sesión</b></button>
             <Link href="/crearUsuario"><button className="btn btn-primary margin-5pc form-control bottonRegister"><b>Registrate</b></button> </Link>   
         </div>
         </div>

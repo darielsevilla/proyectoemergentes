@@ -22,15 +22,16 @@ export default function PantallaCurso(){
         const list2 = item ? JSON.parse(item) : [];
         setList(list2)
     },[])
-    const handleClick = (id : string) =>{
+    const handleClick = (id : string, name : string) =>{
         localStorage.setItem("currentCourse", id);
+        localStorage.setItem("currentCourseName", name);
     }
     const cards = () => {
        
         return(<>
         {list.map((course : any)=>
         
-        <Link onClick={() => handleClick(course.id)} href="/cursowindow" key={course.id}>
+        <Link onClick={() => handleClick(course.id, course.name)} href="/cursowindow" key={course.id}>
             <div className="card mb-3" >
             <div className="row g-0">
                 <div className="col-md-4">

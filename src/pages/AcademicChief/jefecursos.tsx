@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {variables} from '@/data/data';
 import { use, useEffect, useState } from "react";
+import Button from 'react-bootstrap/Button';
 
 export default function CreatedCourses(){
     const [load, setLoad] = useState(0);
@@ -50,11 +51,13 @@ export default function CreatedCourses(){
 
     return(<>
         <div className='container'>
-            <div className="input-group flex-nowrap barMargin">
-            <input type="text" className="form-control" placeholder="Busca un curso" aria-label="Username" aria-describedby="addon-wrapping" />
-            <button className="input-group-text" id="addon-wrapping"><img width="20px" height="20px" src = "/imagenes/search.png"></img></button>
+            <div className="flex">
+                <div className="input-group flex-nowrap barMargin barWidth">
+                <input type="text" className="form-control" placeholder="Busca un curso" aria-label="Username" aria-describedby="addon-wrapping" />
+                <button className="input-group-text" id="addon-wrapping"><img width="20px" height="20px" src = "/imagenes/search.png"></img></button>
+                </div>
+                <Link href="/AcademicChief/createcourse" className="linkWidth"><Button variant="primary" className = "btnHeight barMargin buttonCreate">Crear curso +</Button></Link>
             </div>
-            
             {cards()}
         </div>
     </>);

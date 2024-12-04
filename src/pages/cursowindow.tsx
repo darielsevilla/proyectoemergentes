@@ -89,7 +89,7 @@ export default function Curso(){
                 name: unit.name,
                 _id: unit._id
             }))
-           
+            localStorage.setItem("currentUnits",  JSON.stringify(newUnits))
             setUnits(newUnits.sort((a:any, b:any) => (a.unitNumber < b.unitNumber ? -1 : 1)));
         }).catch((error)=>{console.log(error)})
     }

@@ -10,6 +10,8 @@ import Curso from "./cursowindow";
 import Link from "next/link";
 import CreateUser from "./crearUsuario"
 import VentanaJefe from "./AcademicChief/msjefe";
+import LandingPage from "./landingPage";
+import Contacto from "./contacto";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -32,7 +34,9 @@ export default function Home() {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" defer></script>
 
       </Head>
-      <Login></Login>     
+      {/* <Login></Login>      */}
+      <LandingPage></LandingPage>
+      {/* <Contacto></Contacto> */}
     
 
       

@@ -1,4 +1,39 @@
+import axios from "axios";
+import { useState } from "react";
+
 export default function Contacto(){
+
+    const [mail, setMail] = useState('');
+    
+    const enviarCorreo = async (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+        console.log(mail);
+        const url = `http://localhost:3001/send-email?email=${encodeURIComponent(mail)}`;
+    
+        const body = new URLSearchParams();
+        body.append('email', mail);
+    
+        const config = {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Access-Control-Allow-Origin': '*'
+            }
+        };
+    
+        axios.post(url, body, config).then((res)=>{
+            if (res.status === 200) {
+                console.log("Correo enviado exitosamente!", res.data.message);
+                alert("Correo enviado exitosamente.");
+                window.location.reload();
+            } else {
+                alert("Error al enviar el correo.");
+                console.error("Error al enviar el correo", res.data.message);
+            }}).catch((error)=> {
+                console.log("Error en la peticion", error.response.data.descripcion);
+            });
+            console.log("Peticion realizada");
+    };
+
     return(<>
     
         <div className="contact-page">
@@ -13,11 +48,11 @@ export default function Contacto(){
                     <input  className="cosa" type="text" placeholder="Primer Apellido"/>
                 </div>
                 <div className="input-group">
-                    <input className="cosa" type="email" placeholder="Correo Electrónico"/>
+                    <input className="cosa" type="email" placeholder="Correo Electrónico" onChange={(event) => setMail(event.target.value)}/>
                     <input  className="cosa" type="text" placeholder="Número de telefono" />
                 </div>
                 <textarea className="ta" placeholder="Escribe un mensaje..."></textarea>
-                <button className="nose2" type="submit">Enviar Mensaje</button>
+                <button className="nose2" type="submit" onClick={enviarCorreo}>Enviar Mensaje</button>
                 </form>
             </div>
 

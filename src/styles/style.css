@@ -76,7 +76,7 @@ html, body {
 
 .iconstop{
     width: 75px;
-    width: 75px;
+  
 }
 
 .testBorder{
@@ -377,6 +377,101 @@ body{
     align-items: center; 
 }
 
+
+.btnHeight {
+    height: auto;
+    width: 100%;
+}
+.barWidth {
+    width: 85% !important
+}
+
+.linkWidth{
+    width: 15%;
+}
+.buttonCreate{
+    color: white !important; 
+    background-color: #D6974F !important;
+    border-color: #D6974F !important;
+}
+
+.containerCreate{
+    align-self: center;
+    padding: 20px;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 70%;
+    background-color: #4A4848;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    min-height: 100vh;
+}
+
+.titleCreate{
+    text-align: center;
+    justify-content: center;
+}
+
+.marginInBetween{
+    margin-top: 30px;
+}
+
+
+.boxUnits{
+    border-radius: 10px;
+    min-height: 400px;
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: #6A6868;
+}
+
+.unitItem{
+    border-color: transparent !important;
+    color: white !important;
+}
+
+.buttonAddUnit{
+    margin-left: 5%;
+    width: 20%;
+    color: white !important; 
+    background-color: #D6974F !important;
+    border-color: #D6974F !important;
+}
+
+.buttonKeyConcept{
+    margin-left: 5%;
+    width: 50%;
+    color: white !important; 
+    background-color: #D6974F !important;
+    border-color: #D6974F !important;
+}
+
+.boxModal{
+    border-radius: 10px;
+    min-height: 200px;
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: #6A6868;
+}
+
+.marginModal{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.widthExam{
+    width: 30%;
+}
+
+.rightBtn{
+    display: flex;
+    justify-content: flex-end;
+    right: 0;
+    width: 100%;
+}
+=======
 .hover-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -534,3 +629,4 @@ body{
     font-weight: bold; 
     color: black; 
   }
+

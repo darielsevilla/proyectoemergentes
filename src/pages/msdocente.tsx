@@ -17,6 +17,7 @@ export default function PantallaCurso(){
     }
 
     const [list, setList] = useState<course[]>([])
+    const [textField, setTextField] = useState<string>("");
     useEffect(()=>{
        const item = localStorage.getItem('courses')
         const list2 = item ? JSON.parse(item) : [];
@@ -27,15 +28,20 @@ export default function PantallaCurso(){
         localStorage.setItem("currentCourseName", name);
     }
     const cards = () => {
-       
+        let list2 = list;
+        if(textField != ""){
+            list2 = list.filter((item : any)=>{
+                return item.name.toLowerCase().includes(textField.toLowerCase());
+            })
+        }
         return(<>
-        {list.map((course : any)=>
+        {list2.map((course : any)=>
         
         <Link onClick={() => handleClick(course.id, course.name)} href="/cursowindow" key={course.id}>
             <div className="card mb-3" >
             <div className="row g-0">
                 <div className="col-md-4">
-                <img src={course.img} className="img-fluid rounded-start" alt="..." />
+                <img src={course.img} className="img-fluid rounded-start" style={{ width: '100%', height: '200px', objectFit: 'cover' }} alt="..." />
                 </div>
                 <div className="col-md-8">
                     <div className="card-body">
@@ -66,7 +72,7 @@ export default function PantallaCurso(){
         return(<>
             <div className='container'>
                 <div className="input-group flex-nowrap barMargin">
-                <input type="text" className="form-control" placeholder="Busca un curso" aria-label="Username" aria-describedby="addon-wrapping" />
+                <input type="text" className="form-control" placeholder="Busca un curso" aria-label="Username" aria-describedby="addon-wrapping" value={textField} onChange={(e)=>{setTextField(e.target.value)}} />
                 <button className="input-group-text" id="addon-wrapping"><img width="20px" height="20px" src = "./imagenes/search.png"></img></button>
                 </div>
                 
@@ -105,7 +111,7 @@ export default function PantallaCurso(){
     return(
         <>  
         <div className='flex'>
-            <Sidebar className='autoheight lightbg min-height-100'>
+            <Sidebar className='height-100 lightbg min-height-100'>
                 <div className='topTag'>
                     <img width= '50px' height='50px' src = "./imagenes/icono.png"></img>
                     <p>SmartLearn</p>

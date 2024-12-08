@@ -11,13 +11,15 @@ export default function VocabCard({word, definition, img}:data){
       
       <Card.Body>
         <Card.Title><h1><b>{word}</b></h1></Card.Title>
+        <hr className="whitetxt"></hr>
+        <div className='height20'>
         <Card.Text>
           {definition}
         </Card.Text>
-     
-        <img src={img} width="30%" className='imgCard'></img>
-        
-        
+        </div>
+        <div className="image-container height30">
+          <img src={img} width="30%" className="imgCard" alt="Card visual" />
+        </div>
       </Card.Body>
       
 

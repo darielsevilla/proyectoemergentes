@@ -697,7 +697,7 @@ export default function CreateCourse(){
             optionA : question.optiona,
             optionB : question.optionb,
             optionC : question.optionc,
-            optionD : question.optiona,
+            optionD : question.optiond,
             answer : question.correctOp
           },config);
         
@@ -739,7 +739,7 @@ export default function CreateCourse(){
             }else{
                 event.preventDefault();
                 event.stopPropagation();
-                sendToBackend();
+                await sendToBackend();
                 setInvalidMessage("");
                 const user_id = localStorage.getItem("userId");
                 let body = {

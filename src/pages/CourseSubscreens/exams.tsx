@@ -1,22 +1,63 @@
 import { useEffect, useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
-import {questions} from "@/data/data";
-
+//import {questions} from "@/data/data";
+import axios from 'axios'
+import Spinner from 'react-bootstrap/Spinner'
 export default function Exams(){
 
-    const initialMinutes = 10; 
+    const initialMinutes = 10;
+    interface pregunta{
+        question: string;
+        option1: string;
+        option2: string;
+        option3: string;
+        option4: string;
+        rightAnswer: number;
+    } 
+    const [questions, setQuestions] = useState<pregunta[]>([])
     const [timeLeft, setTimeLeft] = useState(initialMinutes * 60);
+    const [loading, setLoading] = useState(false);
+    const [enter, setEnter] = useState(false);
+    const load =async () =>{
+        setLoading(true)
+        const id = localStorage.getItem("currentCourse");
+        const headers = {
+            params: {
+                course_id: id
+            }
+        }
+        try{
+            const responseExams = await axios.get("http://localhost:3001/getExamQuestions", headers)
+            const examArray = responseExams.data.resultado;
+            
+            const questionsArray = examArray.map((question : any)=>({
+                question: question.question,
+                option1: question.optionA, 
+                option2: question.optionB, 
+                option3: question.optionC, 
+                option4: question.optionD,
+                rightAnswer: Number(question.answer)
+            }))
 
+            setQuestions(questionsArray);
+        }catch(error){
+         
+        }
+        setLoading(false)
+    }
     useEffect(() => {
         if (timeLeft <= 0) return; 
 
         const interval = setInterval(() => {
         setTimeLeft((prevTime) => prevTime - 1);
         }, 1000);
-
+        
         return () => clearInterval(interval); 
     }, [timeLeft]);
 
+    useEffect(()=>{
+        load();
+    },[])
     const [showEvaluation, setShowEvaluation] = useState(true);
 
     const handleButtonClick = () => {
@@ -49,7 +90,7 @@ export default function Exams(){
 
     //question tab
     const forward = () =>{
-        if(question < 4){
+        if(question < questions.length+1){
             setQuestion(question+1)
             setCorrect(0);
         }
@@ -57,7 +98,10 @@ export default function Exams(){
     
     const answer = () =>{
         forward();
+        console.log(monitor);
+        console.log(questions.at(question-1)?.rightAnswer)
         if(monitor === questions.at(question-1)?.rightAnswer && !answered[question-1]){
+            console.log("correcto");
             setScore(score+1);
             setCorrect(1);
             setAnswered((prev) => {
@@ -103,6 +147,56 @@ export default function Exams(){
         }
     }
 
+    const end = async () =>{
+        const config = {
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded',
+                'Access-Control-Allow-Origin' : '*'
+            }
+        }
+        
+        const userId = localStorage.getItem("userId")
+            const id = localStorage.getItem("currentCourse");
+        const getReq = localStorage.getItem("currentCompletionReq")
+            const getCom = localStorage.getItem("currentCompletion")
+            const requirement = getReq ? Number(getReq) : 0
+            const completion = getCom ? Number(getCom) : 0
+            const trueScore = (score / questions.length) * 100
+            const body={
+                user_id : userId,
+                course_id: id,
+                completion: trueScore
+            }    
+            if(trueScore > completion && completion >= requirement){
+                //score mas alto pero curso ya completado  
+                try{   
+                    localStorage.setItem("currentCompletion", String(trueScore))
+                    const response = await axios.post("http://localhost:3001/updateScoreCompleted", body, config);
+                }catch(error){
+                    
+                }
+            }else if(trueScore > completion && completion< requirement && trueScore < requirement){
+                //score mas alto pero no paso
+                try{       
+                    localStorage.setItem("currentCompletion", String(trueScore))        
+                    const response = await axios.post("http://localhost:3001/updateCompletion", body, config);
+                }catch(error){
+
+                }
+            }else if(trueScore > completion && completion< requirement && trueScore >= requirement){
+                //score mas alto y paso
+                try{               
+                    localStorage.setItem("currentCompletion", String(trueScore))
+                    const response = await axios.post("http://localhost:3001/completeCourse", body, config);
+                    const item = localStorage.getItem("courses");
+                    const array = JSON.parse(item?item:"[]");
+                    const arrayf = array.filter((item : any)=>item.id != id);
+                    localStorage.setItem("courses", JSON.stringify(arrayf));
+                }catch(error){
+
+                }
+            }
+    }
     const questionsTab = (questionParam : number) => {
         if(question>0 && question<4){
             return(<>
@@ -151,18 +245,39 @@ export default function Exams(){
                 </div>
             </>);
         } else if(question == 4){
+            if(!enter){
+                end();
+                setEnter(true);
+            }
+            
+            const userId = localStorage.getItem("userId")
+            const id = localStorage.getItem("currentCourse");
+            
             // No hay mas preguntas
+            const getReq = localStorage.getItem("currentCompletionReq")
+            const getCom = localStorage.getItem("currentCompletion")
+            const requirement = getReq ? Number(getReq) : 0
+            const completion = getCom ? Number(getCom) : 0
+            const trueScore = (score / questions.length) * 100
+          
+
             return (<div className="no_more_questions">
                 <h4>Examen Finalizado</h4>
                 <h4>Su puntuación fue de: {score} / {questions.length}</h4>
+                <br></br>
+                {(trueScore > completion) ? <h4>¡Nuevo puntaje más alto!</h4> : <></>}
+                <br></br>
+                {(trueScore >= requirement && completion < requirement) ? <h4>¡Felicidades! Has pasado el curso con {trueScore}</h4> : <></>}
             </div>); 
         }
     }
 
-    useEffect(()=>{
-        setArray((prevArray) => shuffleArray(prevArray));
-    },[])
 
+    if(loading){
+        return(<><div className="container flexVertical loginWindow ">
+            <Spinner animation="border" className="whitetxt margint"/>
+            </div></>)
+    }
     return (
         <div className="container height-100 whitetxt">
           {showEvaluation ? (

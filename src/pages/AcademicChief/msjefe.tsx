@@ -53,12 +53,6 @@ export default function VentanaJefe(){
                     <MenuItem onClick={onClick2} icon = {<img width= '24px' height='24px' src = "/imagenes/curso_icon.png"></img>}>
                         Mis Cursos
                     </MenuItem>
-                    <MenuItem onClick={onClick3} icon = {<img width= '24px' height='24px' src = "/imagenes/resources_icon.png"></img>}>
-                        Mis Recursos
-                    </MenuItem>
-                    <MenuItem onClick={onClick4} icon = {<img width= '24px' height='24px' src = "/imagenes/more_icon.png"></img>}>
-                        Publicar Recursos
-                    </MenuItem>
                     <MenuItem onClick={onClick5} icon = {<img width= '24px' height='24px' src = "/imagenes/monitor_icon.png"></img>}>
                         Monitoreo
                     </MenuItem>

@@ -11,6 +11,8 @@ export default function CreatedCourses(){
     const handleClick = (id : string, name : string) =>{
         localStorage.setItem("currentCourse", id);
         localStorage.setItem("currentCourseName", name);
+        console.log(id);
+        console.log(name);
     }
 
 
@@ -26,7 +28,7 @@ export default function CreatedCourses(){
         return(<>
             {list.map((course: any)=>
             <Link href="/AcademicChief/viewcourse" key={course.id}>
-                <div className="card mb-3" >
+                <div className="card mb-3" onClick={()=>{handleClick(course.id, course.name)}}>
                 <div className="row g-0">
                     <div className="col-md-4">
                     <img src={course.img} className="img-fluid rounded-start"  style={{ width: '100%', height: '200px', objectFit: 'cover' }} alt="..." />
@@ -68,7 +70,7 @@ export default function CreatedCourses(){
             <div className="flex">
                 <div className="input-group flex-nowrap barMargin barWidth">
                 <input type="text" className="form-control" placeholder="Busca un curso" aria-label="Username" aria-describedby="addon-wrapping" value={textField} onChange={(e)=>{setTextField(e.target.value)}}/>
-                <button className="input-group-text" id="addon-wrapping"><img width="20px" height="20px" src = "/imagenes/search.png"></img></button>
+
                 </div>
                 <Link href="/AcademicChief/createcourse" className="linkWidth"><Button variant="primary" className = "btnHeight barMargin buttonCreate">Crear curso +</Button></Link>
             </div>

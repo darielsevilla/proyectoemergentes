@@ -1,7 +1,7 @@
 import FlashCard from "./flashcards";
 import Carousel from 'react-bootstrap/Carousel';
 import Card from 'react-bootstrap/Card';
-import {flashcards} from "@/data/data";
+//import {flashcards} from "@/data/data";
 import {useEffect, useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -17,9 +17,20 @@ export default function FlashCardScreen(){
         word: string;
         definition: string;
     }
+
+    interface Question{
+        definition: string,
+        option1: string,
+        option2: string,
+        option3: string,
+        option4: string,
+        rightAnswer: number;
+    }
     const [flashcardList, setFlashcardList] = useState<Flashcard[]>([]);
+    const [questions, setQuestions] = useState<Question[]>([])
     const [loaded, setLoaded] = useState(false);
     const loadInfo = async () =>{
+        try{
         const config = {
             headers: {
                 'Content-Type' : 'application/x-www-form-urlencoded',
@@ -39,8 +50,16 @@ export default function FlashCardScreen(){
             word : vocab.word,
             definition : vocab.definition,
         }))
+        const body2 = {
+            flashcards: JSON.stringify(newList)
+        }
+        const response2 = await axios.post("http://localhost:3001/generatePreguntasFlashcards",body2,config)
+        await setQuestions([...questions,...JSON.parse(response2.data.list)]);
         setFlashcardList(newList)
-        setLoaded(true)       
+        setLoaded(true)
+    }catch(error){
+
+    }       
     }
 
     function FlashCardCarousel() {
@@ -90,7 +109,7 @@ export default function FlashCardScreen(){
 
 
     const answer = () =>{
-        if(monitor === flashcards.questions.at(question-1)?.rightAnswer && !answered[question-1]){
+        if(monitor === questions.at(question-1)?.rightAnswer && !answered[question-1]){
             setCorrect(1);
           
             setCompletion(25+completion);
@@ -148,7 +167,7 @@ export default function FlashCardScreen(){
                     {/*flashcard de arriba */}
                         <Card className="flashCard justified-text">
                     <Card.Body className='flexVertical loginWindow'>
-                        <Card.Title>{flashcards.questions.at(questionParam)?.definition}</Card.Title>
+                        <Card.Title>{questions.at(questionParam)?.definition}</Card.Title>
                     </Card.Body>
                     </Card>
     
@@ -157,28 +176,28 @@ export default function FlashCardScreen(){
                         <Form.Check
                             name="group1"
                             type={'radio'}
-                            label={flashcards.questions.at(questionParam)?.option1}
+                            label={questions.at(questionParam)?.option1}
                             id={`op1`}
                             onChange={setMonitor1}
                         />
                         <Form.Check
                             name="group1"
                             type={'radio'}
-                            label={flashcards.questions.at(questionParam)?.option2}
+                            label={questions.at(questionParam)?.option2}
                             id={`op2`}
                             onChange={setMonitor2}
                         />
                         <Form.Check
                             name="group1"
                             type={'radio'}
-                            label={flashcards.questions.at(questionParam)?.option3}
+                            label={questions.at(questionParam)?.option3}
                             id={`op3`}
                             onChange={setMonitor3}
                         />
                         <Form.Check
                             name="group1"
                             type={'radio'}
-                            label={flashcards.questions.at(questionParam)?.option4}
+                            label={questions.at(questionParam)?.option4}
                             id={`op4`}
                             onChange={setMonitor4}
                         />

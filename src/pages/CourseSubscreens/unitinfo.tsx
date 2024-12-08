@@ -101,11 +101,17 @@ export default function UnitInfo({courseID, unitNum, name, _id}:CourseInfo){
                 <Col>
                 <Card className='bottomCardUnit whitetxt'>
                     <Card.Body>
-                    <Card.Title >Conocimientos Necesarios</Card.Title>
-                    {resources.map((resource)=><><a href={resource}><Card.Text>
-                     {resource}
-                    </Card.Text></a>
-                    <br></br>
+                    <Card.Title className='margin-bot-5pc'>Conocimientos Necesarios</Card.Title>
+                    {resources.map((resource,i)=><><a href={resource} className='whitetxt'>
+                        
+                    {!resource.includes("storage.googleapis") ?<div className='flex'> <img  src="/imagenes/playIcon.png" width={25} height={"auto"} /><Card.Text>
+                     enlace de youtube
+                    </Card.Text></div> : <div className='flex'> <img  src="/imagenes/documentIcon.png" width={25} height={"auto"} /><Card.Text>
+                     enlace de documento pdf
+                    </Card.Text></div> }    
+                    </a>
+                    
+                    {i != resources.length-1 ? <hr className="whitetxt"></hr> : <></>}
                     </>
                     )}
 
@@ -116,12 +122,18 @@ export default function UnitInfo({courseID, unitNum, name, _id}:CourseInfo){
                 <Col>
                 <Card className='bottomCardUnit whitetxt'>
                     <Card.Body>
-                    <Card.Title >Ejemplos Practicos</Card.Title>
-                    {examples.map((example)=><><a href={example}><Card.Text>
-                     {example}
-                    </Card.Text></a>
-                    <br></br>
+                    <Card.Title className='margin-bot-5pc'>Ejemplos Practicos</Card.Title>
+                    
+                    {examples.map((example, i)=><><a href={example} className='whitetxt'> {!example.includes("storage.googleapis") ?<div className='flex'><img  src="/imagenes/playIcon.png" width={25} height={"auto"} /><Card.Text>
+                     enlace de youtube
+                    </Card.Text></div> : <div className='flex'> <img  src="/imagenes/documentIcon.png" width={25} height={"auto"} /><Card.Text>
+                     enlace de documento pdf
+                    </Card.Text></div> }    
+                    {i != resources.length-1 ? <hr className="whitetxt"></hr> : <></>}
+
+                    </a>
                     </>)}
+                    
                     </Card.Body>
                 </Card>
                 </Col>

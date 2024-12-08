@@ -4,6 +4,7 @@ import Footerc from './footer';
 import Link from "next/link"
 import {variables, courseInfo} from "@/data/data"
 import Perfil from './perfil';
+import axios from "axios";
 
 export default function PantallaCurso(){
     interface course{
@@ -17,25 +18,57 @@ export default function PantallaCurso(){
     }
 
     const [list, setList] = useState<course[]>([])
+    const [textField, setTextField] = useState<string>("");
     useEffect(()=>{
        const item = localStorage.getItem('courses')
         const list2 = item ? JSON.parse(item) : [];
         setList(list2)
     },[])
-    const handleClick = (id : string, name : string) =>{
+    const handleClick = async (id : string, name : string) =>{
         localStorage.setItem("currentCourse", id);
         localStorage.setItem("currentCourseName", name);
+        const userId = localStorage.getItem("userId");
+        try{
+            let url = "http://localhost:3001/getCourseProgress";
+            const headers = {
+                params:{
+                    user_id: userId? userId : "",
+                    course_id: id
+                }
+            }
+            const response = await axios.get(url,headers);
+            if(response){
+                const progress = response.data.resultado;
+                localStorage.setItem("currentCompletion",progress);
+            }
+
+        ;
+            const cursos = localStorage.getItem("courses");
+            const courseList = cursos? JSON.parse(cursos) : []
+            const course = courseList.find((curso : any)=>curso.id == id);
+            console.log(String(course.completionRequirement));
+            localStorage.setItem("currentCompletionReq", String(course.completionRequirement))
+        }catch(error){
+            console.log("algo salio mal")
+            console.log(error)
+        }
+    
     }
     const cards = () => {
-       
+        let list2 = list;
+        if(textField != ""){
+            list2 = list.filter((item : any)=>{
+                return item.name.toLowerCase().includes(textField.toLowerCase());
+            })
+        }
         return(<>
-        {list.map((course : any)=>
+        {list2.map((course : any)=>
         
         <Link onClick={() => handleClick(course.id, course.name)} href="/cursowindow" key={course.id}>
             <div className="card mb-3" >
             <div className="row g-0">
                 <div className="col-md-4">
-                <img src={course.img} className="img-fluid rounded-start" alt="..." />
+                <img src={course.img} className="img-fluid rounded-start" style={{ width: '100%', height: '200px', objectFit: 'cover' }} alt="..." />
                 </div>
                 <div className="col-md-8">
                     <div className="card-body">
@@ -66,7 +99,7 @@ export default function PantallaCurso(){
         return(<>
             <div className='container'>
                 <div className="input-group flex-nowrap barMargin">
-                <input type="text" className="form-control" placeholder="Busca un curso" aria-label="Username" aria-describedby="addon-wrapping" />
+                <input type="text" className="form-control" placeholder="Busca un curso" aria-label="Username" aria-describedby="addon-wrapping" value={textField} onChange={(e)=>{setTextField(e.target.value)}} />
                 <button className="input-group-text" id="addon-wrapping"><img width="20px" height="20px" src = "./imagenes/search.png"></img></button>
                 </div>
                 
@@ -105,7 +138,7 @@ export default function PantallaCurso(){
     return(
         <>  
         <div className='flex'>
-            <Sidebar className='autoheight lightbg min-height-100'>
+            <Sidebar className='height-100 lightbg min-height-100'>
                 <div className='topTag'>
                     <img width= '50px' height='50px' src = "./imagenes/icono.png"></img>
                     <p>SmartLearn</p>
@@ -117,15 +150,7 @@ export default function PantallaCurso(){
                     <MenuItem onClick={onClick2} icon = {<img width= '24px' height='24px' src = "./imagenes/curso_icon.png"></img>}>
                         Cursos
                     </MenuItem>
-                    <MenuItem onClick={onClick3} icon = {<img width= '24px' height='24px' src = "./imagenes/resources_icon.png"></img>}>
-                        Mis Recursos
-                    </MenuItem>
-                    <MenuItem onClick={onClick4} icon = {<img width= '24px' height='24px' src = "./imagenes/more_icon.png"></img>}>
-                        Mas Recursos
-                    </MenuItem>
-                    <MenuItem onClick={onClick5} icon = {<img width= '24px' height='24px' src = "./imagenes/chat_icon.png"></img>}>
-                        Chat
-                    </MenuItem>
+                    
                     
                 </Menu>
             </Sidebar>

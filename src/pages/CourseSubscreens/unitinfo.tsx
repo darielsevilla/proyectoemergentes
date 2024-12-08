@@ -26,7 +26,10 @@ export default function UnitInfo({courseID, unitNum, name, _id}:CourseInfo){
         definition : string,
         image : string,
     }
+
     const [vocabWords, setVocabWords] = useState<vocab[]>([]);
+    const [resources, setResources] = useState<string[]>([]);
+    const [examples, setExamples] = useState<string[]>([]);
     const [current, setCurrent] = useState(0);
 
     
@@ -49,9 +52,20 @@ export default function UnitInfo({courseID, unitNum, name, _id}:CourseInfo){
             definition : vocab.definition,
             image : vocab.image
         }))
+       
+        const newExamples = response.data.exampleList?.map((example: any) =>{
+            return(example.url)
+        });
+        console.log(newExamples);
+        const newResources = response.data.resourceList?.map((resource: any) =>{
+            return(resource.url)
+        });
+        console.log(newResources);
+        setExamples(newExamples)
+        setResources(newResources)
         setVocabWords(newVocab)
         setCurrent(0)
-        console.log(vocabWords.at(current)?.word )
+       
         setLoaded(true)
     }
     useEffect(()=>{
@@ -88,9 +102,13 @@ export default function UnitInfo({courseID, unitNum, name, _id}:CourseInfo){
                 <Card className='bottomCardUnit whitetxt'>
                     <Card.Body>
                     <Card.Title >Conocimientos Necesarios</Card.Title>
-                    <Card.Text>
-                     
-                    </Card.Text>
+                    {resources.map((resource)=><><a href={resource}><Card.Text>
+                     {resource}
+                    </Card.Text></a>
+                    <br></br>
+                    </>
+                    )}
+
                     </Card.Body>
                 </Card>
                 </Col>
@@ -99,9 +117,11 @@ export default function UnitInfo({courseID, unitNum, name, _id}:CourseInfo){
                 <Card className='bottomCardUnit whitetxt'>
                     <Card.Body>
                     <Card.Title >Ejemplos Practicos</Card.Title>
-                    <Card.Text>
-                      
-                    </Card.Text>
+                    {examples.map((example)=><><a href={example}><Card.Text>
+                     {example}
+                    </Card.Text></a>
+                    <br></br>
+                    </>)}
                     </Card.Body>
                 </Card>
                 </Col>

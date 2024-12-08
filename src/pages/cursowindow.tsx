@@ -1,7 +1,7 @@
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { useEffect, useState } from 'react';
 import UnitInfo from './CourseSubscreens/unitinfo';
-
+import { useRouter } from "next/router";
 import FlashCardScreen from './CourseSubscreens/flashcardscreen';
 import { SummaryWindow } from './CourseSubscreens/summaries';
 import Questions from './CourseSubscreens/questions';

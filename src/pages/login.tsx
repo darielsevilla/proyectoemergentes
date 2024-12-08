@@ -3,12 +3,13 @@ import Footerc from "./footer";
 import {useState,useEffect} from "react"
 import axios from 'axios';
 import { useRouter } from "next/router";
+import Alert from 'react-bootstrap/Alert';
 
 export default function Login() {
     const router = useRouter();
     
     const [isMounted, setIsMounted] = useState(false);
-
+    const [error, setError] = useState(false);
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
    
@@ -33,7 +34,9 @@ export default function Login() {
             } else {
                 console.error("Error en la respuesta del servidor:", res.data.message);
             }
+            setError(false);
         }).catch((error)=> {
+            setError(true);
             console.log("Error en la peticion", error.response.data.descripcion);
         });
         console.log("Peticion realizada");
@@ -97,6 +100,16 @@ export default function Login() {
     
     }
 
+    const errorMsg = () =>{
+        if(!error){
+            return(<></>);
+        }
+        return(
+            <Alert variant={"danger"} className="margin-5pc">
+                Correo y/o contraseña incorrecta
+            </Alert>
+        );
+    }
     return(
         <>
         <div className="loginContainer">
@@ -125,10 +138,11 @@ export default function Login() {
             
             <button className="btn btn-primary margint form-control buttonLogin" onClick={logInFireBase}><b>Iniciar Sesión</b></button>
             <Link href="/crearUsuario"><button className="btn btn-primary margin-5pc form-control bottonRegister"><b>Registrate</b></button> </Link>   
+            {errorMsg()}
         </div>
         </div>
         
-      
+
             <Footerc></Footerc>
         
     

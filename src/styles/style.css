@@ -101,7 +101,10 @@ html, body {
 
 }
 
-
+.height30{
+    height: 30% !important;
+    bottom: 0
+}
 .widthField{
     max-width: 60%;
 }
@@ -180,6 +183,10 @@ body{
 
 .margin-5pc{
     margin-top: 5% !important;
+}
+
+.margin-bot-5pc{
+    margin-bottom: 5% !important;
 }
 .margint{
     margin-top: 10%;
@@ -630,3 +637,22 @@ body{
     color: black; 
   }
 
+  .imageCont {
+    margin-top: 100% !important; 
+    margin-bottom: 10px; 
+    display: flex; 
+    justify-content: center; 
+    bottom: 0 !important;
+  }
+
+  .imgCard {
+    max-width: 100%; 
+  }
+
+  .height30{
+    height: 30% !important;
+  }
+
+  .height20{
+    height: 150px !important;
+  }

@@ -12,8 +12,8 @@ export default function LandingPage(){
                         <a className="nose" href="/contacto">
                             Contactanos
                         </a>
-                        <a className="nose" href="/login">
-                            Inicia Sesión
+                        <a className="nose" href="/crearInstitucion">
+                            Registrar Institución
                         </a>
                         <a className="nose" href="/crearUsuario">
                             Registrate
@@ -25,7 +25,7 @@ export default function LandingPage(){
                             <button className="btn btn-outline-secondary" type="submit">Buscar</button>
                         </div>
                     </form> */}
-                    <a href="#" className="ms-4 me-4">
+                    <a href="/login" className="ms-4 me-4">
                     <   img width= '45px' height='45px' src = "./imagenes/perfil_icon.png"></img>
                     </a>
                 </div>

@@ -44,6 +44,7 @@ export default function ViewCourse(){
     const [unidades, setUnidades] = useState<units[]>()
     const [users, setUsers] = useState<user[]>()
     const [notAssignedUsers, setNotAssignedUsers] = useState<user[]>()
+    const [usersCompleted, setUsersCompleted] = useState<user[]>();
     const [questionsExam, setQuestionsExam] = useState<question[]>()
 
     const [selected, setSelected] = useState(-1);
@@ -52,6 +53,8 @@ export default function ViewCourse(){
         setLoading(true);
         const id = localStorage.getItem("currentCourse");
         const currentCourseName = localStorage.getItem("currentCourseName")
+        const institution = localStorage.getItem('institutionID')
+
         const cursos = localStorage.getItem("courses")
         const list = JSON.parse(cursos ? cursos : "")
         const course = list.find((item: any) => item.id === id);
@@ -93,7 +96,8 @@ export default function ViewCourse(){
         
         const headers = {
             params: {
-                course_id: id
+                course_id: id,
+                institutionID: institution
             }
         }
         try{
@@ -115,6 +119,7 @@ export default function ViewCourse(){
         }
 
         try{
+        
             const responseUsers2 = await axios.get("http://localhost:3001/getNotCourseStudents", headers)
             const users2 = responseUsers2.data.resultado;
         
@@ -132,6 +137,23 @@ export default function ViewCourse(){
         }
 
         try{
+            const responseUsers3 = await axios.get("http://localhost:3001/getCourseCompletedStudents", headers)
+            const users3 = responseUsers3.data.resultado;
+        
+            const usersList3 = users3.map((user : any)=>({
+                id: user.id,
+                name: user.name,
+                lastName: user.lastName,
+                userName: user.userName,
+                completion: Number(user.completion)
+            }))
+            console.log(usersList3);
+            setUsersCompleted(usersList3);
+        }catch(error){
+         
+        }
+        
+        try{
             const responseExams = await axios.get("http://localhost:3001/getExamQuestions", headers)
             const examArray = responseExams.data.resultado;
             
@@ -145,6 +167,8 @@ export default function ViewCourse(){
         }catch(error){
          
         }
+
+        
         setLoading(false);
     }
     const select = (index : number) =>{
@@ -344,6 +368,30 @@ export default function ViewCourse(){
             
             <Button variant="secondary" onClick={()=>{remove()}}>Remover Docente</Button>
 
+            <hr className="whitetxt"></hr>
+            <div className='flex whitetxt margin-5pc'>
+                <h4>Docentes Que han completado el curso:</h4>
+           </div>
+            <Table striped bordered hover variant="dark" className='margin-5pc'>
+                <thead>
+                    <tr>
+                        <th>name</th>
+                        <th>userName</th>  
+                        <th>lastName</th>
+                    </tr>
+                </thead>
+                {usersCompleted?.map((user, i)=><tbody
+                    onClick = {()=>{setSelectedUnassigned(i)}}
+                    style={{
+                    backgroundColor: selectedUnassigned == i ? '#66b2ff' : 'inherit',
+                    cursor: 'pointer'}}>
+                    <tr>
+                    <td>{user.name}</td>
+                    <td>{user.userName}</td>
+                    <td>{user.lastName}</td>
+                    </tr>
+                </tbody>)}
+            </Table>    
 
         </div>
         

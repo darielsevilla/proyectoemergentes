@@ -4,6 +4,7 @@ import Footerc from './footer';
 import Link from "next/link"
 import {variables, courseInfo} from "@/data/data"
 import Perfil from './perfil';
+import axios from "axios";
 
 export default function PantallaCurso(){
     interface course{
@@ -23,9 +24,35 @@ export default function PantallaCurso(){
         const list2 = item ? JSON.parse(item) : [];
         setList(list2)
     },[])
-    const handleClick = (id : string, name : string) =>{
+    const handleClick = async (id : string, name : string) =>{
         localStorage.setItem("currentCourse", id);
         localStorage.setItem("currentCourseName", name);
+        const userId = localStorage.getItem("userId");
+        try{
+            let url = "http://localhost:3001/getCourseProgress";
+            const headers = {
+                params:{
+                    user_id: userId? userId : "",
+                    course_id: id
+                }
+            }
+            const response = await axios.get(url,headers);
+            if(response){
+                const progress = response.data.resultado;
+                localStorage.setItem("currentCompletion",progress);
+            }
+
+        ;
+            const cursos = localStorage.getItem("courses");
+            const courseList = cursos? JSON.parse(cursos) : []
+            const course = courseList.find((curso : any)=>curso.id == id);
+            console.log(String(course.completionRequirement));
+            localStorage.setItem("currentCompletionReq", String(course.completionRequirement))
+        }catch(error){
+            console.log("algo salio mal")
+            console.log(error)
+        }
+    
     }
     const cards = () => {
         let list2 = list;
@@ -123,15 +150,7 @@ export default function PantallaCurso(){
                     <MenuItem onClick={onClick2} icon = {<img width= '24px' height='24px' src = "./imagenes/curso_icon.png"></img>}>
                         Cursos
                     </MenuItem>
-                    <MenuItem onClick={onClick3} icon = {<img width= '24px' height='24px' src = "./imagenes/resources_icon.png"></img>}>
-                        Mis Recursos
-                    </MenuItem>
-                    <MenuItem onClick={onClick4} icon = {<img width= '24px' height='24px' src = "./imagenes/more_icon.png"></img>}>
-                        Mas Recursos
-                    </MenuItem>
-                    <MenuItem onClick={onClick5} icon = {<img width= '24px' height='24px' src = "./imagenes/chat_icon.png"></img>}>
-                        Chat
-                    </MenuItem>
+                    
                     
                 </Menu>
             </Sidebar>

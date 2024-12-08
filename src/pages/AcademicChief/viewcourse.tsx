@@ -1,8 +1,10 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
-import { courseInfo } from '@/data/data'
+import { courseInfo, questions } from '@/data/data'
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
+
 
 export default function ViewCourse(){
     
@@ -24,20 +26,30 @@ export default function ViewCourse(){
     }
 
     interface user{
+        id : string,
         name : string,
         userName: string,
         lastName : string,
         completion: number
     }
 
+    interface question{
+        question: string,
+        options: string[],
+        answer: number,
+    }
+    const [loading, setLoading] = useState(false);
 
     const [curso, setCurso] = useState<courses>()
     const [unidades, setUnidades] = useState<units[]>()
     const [users, setUsers] = useState<user[]>()
-    
-    const [selected, setSelected] = useState(-1);
+    const [notAssignedUsers, setNotAssignedUsers] = useState<user[]>()
+    const [questionsExam, setQuestionsExam] = useState<question[]>()
 
+    const [selected, setSelected] = useState(-1);
+    const [selectedUnassigned, setSelectedUnassigned] = useState(-1);
     const load = async () =>{
+        setLoading(true);
         const id = localStorage.getItem("currentCourse");
         const currentCourseName = localStorage.getItem("currentCourseName")
         const cursos = localStorage.getItem("courses")
@@ -84,20 +96,56 @@ export default function ViewCourse(){
                 course_id: id
             }
         }
-        const responseUsers = await axios.get("http://localhost:3001/getCourseStudents", headers)
+        try{
+            const responseUsers = await axios.get("http://localhost:3001/getCourseStudents", headers)
 
-        const users = responseUsers.data.resultado;
+            const users = responseUsers.data.resultado;
         
-       
-        const usersList = users.map((user : any)=>({
-            name: user.name,
-            lastName: user.lastName,
-            userName: user.userName,
-            completion: Number(user.completion)
-        }))
+            const usersList = users.map((user : any)=>({
+                id: user.id,
+                name: user.name,
+                lastName: user.lastName,
+                userName: user.userName,
+                completion: Number(user.completion)
+            }))
 
+            setUsers(usersList);
+        }catch(error){
 
-        setUsers(usersList);
+        }
+
+        try{
+            const responseUsers2 = await axios.get("http://localhost:3001/getNotCourseStudents", headers)
+            const users2 = responseUsers2.data.resultado;
+        
+            const usersList2 = users2.map((user : any)=>({
+                id: user.id,
+                name: user.name,
+                lastName: user.lastName,
+                userName: user.userName,
+                completion: Number(user.completion)
+            }))
+
+            setNotAssignedUsers(usersList2);
+        }catch(error){
+         
+        }
+
+        try{
+            const responseExams = await axios.get("http://localhost:3001/getExamQuestions", headers)
+            const examArray = responseExams.data.resultado;
+            
+            const questionsArray = examArray.map((question : any)=>({
+                question: question.question,
+                options: [question.optionA, question.optionB, question.optionC, question.optionD],
+                answer: question.answer
+            }))
+
+            setQuestionsExam(questionsArray);
+        }catch(error){
+         
+        }
+        setLoading(false);
     }
     const select = (index : number) =>{
         console.log(index);
@@ -106,7 +154,81 @@ export default function ViewCourse(){
 
     useEffect(()=>{
         load()
+        
     }, [])
+
+    if(loading){
+        return(<><div className="container flexVertical loginWindow ">
+            <Spinner animation="border" className="whitetxt margint"/>
+            </div></>)
+        ;
+    }
+    
+    const assign = async () =>{
+        try{
+            if(selected != -1){
+                const config = {
+                    headers: {
+                        'Content-Type' : 'application/x-www-form-urlencoded',
+                        'Access-Control-Allow-Origin' : '*'
+                    }
+                }
+                const user = notAssignedUsers?.at(selected);
+                const body = {
+                    user_id: user?.id,
+                    course_id: curso?.id,
+                    completion:0, 
+                }
+
+                const response = await axios.post("http://localhost:3001/assignCourse", body, config)
+                console.log(response);
+                if(response.data.message = "Curso asignado con exito!"){
+                    if(notAssignedUsers){
+                        const updatedUsers = [...notAssignedUsers];
+                        updatedUsers.splice(selected, 1);
+                        setNotAssignedUsers(updatedUsers)
+                    }
+                    if(users && user){
+                        setUsers([...users, user])
+                    }
+                }
+                setSelected(-1);
+            }
+        }catch(error){
+
+        }
+    }
+    const remove = async () =>{
+        if(selectedUnassigned != -1){
+      
+                const config = {
+                    headers: {
+                        'Content-Type' : 'application/x-www-form-urlencoded',
+                        'Access-Control-Allow-Origin' : '*'
+                    }
+                }
+                const user = users?.at(selectedUnassigned);
+                console.log(user)
+                const body = {
+                    user_id: user?.id,
+    
+                }
+
+                const response = await axios.post("http://localhost:3001/unassignCourse", body, config)
+                console.log(response);
+                if(response.data.message = "Curso asignado con exito!"){
+                    if(users){
+                        const updatedUsers = [...users];
+                        updatedUsers.splice(selectedUnassigned, 1);
+                        setUsers(updatedUsers)
+                    }
+                    if(notAssignedUsers && user){
+                        setNotAssignedUsers([...notAssignedUsers, user])
+                    }
+                }
+            setSelectedUnassigned(-1);
+        }
+    }
 
     return( <div className="container">
         <div className="containerCreate">
@@ -151,20 +273,19 @@ export default function ViewCourse(){
 
             <hr className="whitetxt"></hr>
 
-            <h4 className="whitetxt titleCreate"><b>Preguntas de Examen</b></h4>
+            <h4 className="whitetxt titleCreate"><b>Preguntas de Examen:</b></h4>
             <Table striped bordered hover variant="dark" className='margin-5pc'>
                 <thead>
                     <tr>
-                    <th>id</th>
-                    <th>name</th>
-                    <th>number</th>
+                    <th>pregunta</th>
+                    <th>respuesta</th>
                     </tr>
                 </thead>
-                {unidades?.map((unidad)=><tbody>
+                {questionsExam?.map((question)=><tbody>
                     <tr>
-                    <td>{unidad.id}</td>
-                    <td>{unidad.name}</td>
-                    <td>{unidad.number}</td>
+                    <td>{question.question}</td>
+                    <td>{question.options.at(question.answer-1)}</td>
+ 
                     </tr>
                 </tbody>)}
             </Table>
@@ -182,7 +303,7 @@ export default function ViewCourse(){
                         <th>lastName</th>
                     </tr>
                 </thead>
-                {users?.map((user, i)=><tbody key = {i} onClick = {()=>{select(i)}}
+                {notAssignedUsers?.map((user, i)=><tbody key = {i} onClick = {()=>{select(i)}}
                      style={{
                         backgroundColor: selected == i ? '#66b2ff' : 'inherit',
                         cursor: 'pointer',
@@ -194,8 +315,8 @@ export default function ViewCourse(){
                     </tr>
                 </tbody>)}
             </Table>
-                    
-            <Button variant="secondary">Asignar a Docente</Button>
+            
+            <Button variant="secondary" onClick={()=>{assign()}}>Asignar Docente</Button>
 
             <div className='flex whitetxt margin-5pc'>
                 <h4>Docentes asignados al curso:</h4>
@@ -208,7 +329,11 @@ export default function ViewCourse(){
                         <th>lastName</th>
                     </tr>
                 </thead>
-                {users?.map((user)=><tbody>
+                {users?.map((user, i)=><tbody
+                    onClick = {()=>{setSelectedUnassigned(i)}}
+                    style={{
+                    backgroundColor: selectedUnassigned == i ? '#66b2ff' : 'inherit',
+                    cursor: 'pointer'}}>
                     <tr>
                     <td>{user.name}</td>
                     <td>{user.userName}</td>
@@ -216,7 +341,8 @@ export default function ViewCourse(){
                     </tr>
                 </tbody>)}
             </Table>
-
+            
+            <Button variant="secondary" onClick={()=>{remove()}}>Remover Docente</Button>
 
 
         </div>

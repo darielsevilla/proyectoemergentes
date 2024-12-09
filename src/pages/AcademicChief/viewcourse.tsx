@@ -58,7 +58,7 @@ export default function ViewCourse(){
         const cursos = localStorage.getItem("courses")
         const list = JSON.parse(cursos ? cursos : "")
         const course = list.find((item: any) => item.id === id);
-        
+        console.log(id)
         await setCurso({
             id: course.id, 
             img: course.image,

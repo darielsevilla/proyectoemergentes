@@ -70,7 +70,7 @@ export default function Perfil(){
 
     const handleClickDocente = async (id : string, name : string) =>{
         localStorage.setItem("currentCourse", id);
-        
+        console.log(id)
         localStorage.setItem("currentCourseName", name);
         const userId = localStorage.getItem("userId");
         try{
@@ -118,7 +118,7 @@ export default function Perfil(){
                 <div className='cardSpace'>
                     {/*beginning of card */} 
                     {list2.slice(0,5).map((curso : any)=>
-                    <Link onClick={()=> {handleClickDocente(curso.course_id, curso.name)}} href="/cursowindow" key = {curso.id}>
+                    <Link onClick={()=> {handleClickDocente(curso.id, curso.name)}} href="/cursowindow" key = {curso.id}>
                     <div >
                             
                             <div className="card cardMargin">
@@ -146,7 +146,7 @@ export default function Perfil(){
                         <h4>Cursos Creados</h4> 
                         <div className='course-list-container'>
                             {list2.map((curso:any)=>
-                            <Link onClick={()=> {handleClickDocente(curso.course_id, curso.name)}} href="/cursowindow" key = {curso.id}>
+                            <Link onClick={()=> {handleClickDocente(curso.id, curso.name)}} href="/cursowindow" key = {curso.id}>
                             <div key = {curso.id}>
                                 <div className="card cardMargin">
                                     <div className="card-body">
@@ -455,7 +455,7 @@ export default function Perfil(){
                 <div className='cardSpace'>
                     {/*beginning of card */} 
                     {list2.slice(0,5).map((curso:any)=>
-                    <Link onClick={()=>{handleClickJefe(curso.course_id, curso.name)}} href="/AcademicChief/viewcourse" key = {curso.id}>
+                    <Link onClick={()=>{handleClickJefe(curso.id, curso.name)}} href="/AcademicChief/viewcourse" key = {curso.id}>
                     <div >
                             <div className="card cardMargin">
                                 <div className="card-body">
@@ -479,7 +479,7 @@ export default function Perfil(){
                         <h4>Cursos Creados</h4>
                         <div className='course-list-container'>
                             {list2.map((curso:any)=>
-                            <Link onClick={()=>{handleClickJefe(curso.course_id, curso.name)}} href="/AcademicChief/viewcourse" key = {curso.id}>
+                            <Link onClick={()=>{handleClickJefe(curso.id, curso.name)}} href="/AcademicChief/viewcourse" key = {curso.id}>
                             <div>
                                 <div className="card cardMargin">
                                     <div className="card-body">

@@ -676,7 +676,11 @@ export default function Perfil(){
                     <div className="col-md-4">
                         <div className='horizontalCenter'>
 
-                        <img src="/imagenesCurso/data_structures_cover.jpg" className="img-fluid heightPfCard  rounded-circle mt-4" alt="..." />
+                        <img src={
+                                    localStorage.getItem('role') === 'Docente' 
+                                        ? "/imagenes/docente_perfil.jpg"
+                                        : "/imagenes/jefe.jpg"
+                                } className="img-fluid heightPfCard  rounded-circle mt-4" alt="..." />
                         
                         <h3 className="card-title">@{localStorage.getItem('userName')}</h3>
                         <h4 className="card-title">{localStorage.getItem('name')} {localStorage.getItem('lastName')}</h4>

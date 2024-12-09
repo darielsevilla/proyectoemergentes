@@ -24,7 +24,7 @@ export default function Perfil(){
                 user_id: resultado.user_id,
                 course_id: resultado.course_id,
                 score: resultado.score,
-                courseName: resultado.courseName
+                courseName: resultado.name
             }));
             console.log(completedCourses);
             localStorage.setItem('completedCourses', JSON.stringify(completedCourses));
@@ -70,6 +70,7 @@ export default function Perfil(){
 
     const handleClickDocente = async (id : string, name : string) =>{
         localStorage.setItem("currentCourse", id);
+        
         localStorage.setItem("currentCourseName", name);
         const userId = localStorage.getItem("userId");
         try{
@@ -86,7 +87,7 @@ export default function Perfil(){
                 localStorage.setItem("currentCompletion",progress);
             }
 
-        ;
+          
             const cursos = localStorage.getItem("courses");
             const courseList = cursos? JSON.parse(cursos) : []
             const course = courseList.find((curso : any)=>curso.id == id);
@@ -117,7 +118,7 @@ export default function Perfil(){
                 <div className='cardSpace'>
                     {/*beginning of card */} 
                     {list2.slice(0,5).map((curso : any)=>
-                    <Link onClick={()=> {handleClickDocente(curso.id, curso.name)}} href="/cursowindow" key = {curso.id}>
+                    <Link onClick={()=> {handleClickDocente(curso.course_id, curso.name)}} href="/cursowindow" key = {curso.id}>
                     <div >
                             
                             <div className="card cardMargin">
@@ -145,7 +146,7 @@ export default function Perfil(){
                         <h4>Cursos Creados</h4> 
                         <div className='course-list-container'>
                             {list2.map((curso:any)=>
-                            <Link onClick={()=> {handleClickDocente(curso.id, curso.name)}} href="/cursowindow" key = {curso.id}>
+                            <Link onClick={()=> {handleClickDocente(curso.course_id, curso.name)}} href="/cursowindow" key = {curso.id}>
                             <div key = {curso.id}>
                                 <div className="card cardMargin">
                                     <div className="card-body">
@@ -283,7 +284,7 @@ export default function Perfil(){
                 <h3 className="card-title"><b>Cursos Terminado Más Reciente</b></h3>
                 
                     {list3.slice(0,5).map((curso : any)=>
-                    <Link onClick={()=> {handleClickDocente(curso.id, curso.courseName)}} href="/cursowindow" key = {curso.id}>
+                    <Link onClick={()=> {handleClickDocente(curso.course_id, curso.courseName)}} href="/cursowindow" key = {curso.id}>
                     <div >
                             
                             <div className="card cardMargin">
@@ -291,8 +292,8 @@ export default function Perfil(){
                             <div className="card-body">
                             <h6 className="card-subtitle mb-2 text-body-secondary">Curso</h6>
                             <h5 className="card-title">{curso.courseName}</h5>
-                            <div className="progress" role="progressbar" aria-label="Warning example" aria-valuenow={75} aria-valuemin={0} aria-valuemax={5}>
-                                <div className="progress-bar bg-warning text-dark" style={{width: `${95}%`}}>{95}%</div>
+                            <div className="progress margin-5pc" role="progressbar" aria-label="Warning example" aria-valuenow={75} aria-valuemin={0} aria-valuemax={100}>
+                                <div className="bg-warning" style={{width: `${curso.score}%`, textAlign:'center', transition: 'width 0.5s ease-in-out', color:"white"}}>{curso.score}%</div>
                             </div>
                             </div>
                             
@@ -309,7 +310,7 @@ export default function Perfil(){
                         <h4>Cursos Creados</h4> 
                         <div className='course-list-container'>
                             {list3.map((curso:any)=>
-                            <Link onClick={()=> {handleClickDocente(curso.id, curso.courseName)}} href="/cursowindow" key = {curso.id}>
+                            <Link onClick={()=> {handleClickDocente(curso.course_id, curso.courseName)}} href="/cursowindow" key = {curso.id}>
                             <div>
                                 <div className="card cardMargin">
                                     <div className="card-body">
@@ -454,7 +455,7 @@ export default function Perfil(){
                 <div className='cardSpace'>
                     {/*beginning of card */} 
                     {list2.slice(0,5).map((curso:any)=>
-                    <Link onClick={()=>{handleClickJefe(curso.id, curso.name)}} href="/AcademicChief/viewcourse" key = {curso.id}>
+                    <Link onClick={()=>{handleClickJefe(curso.course_id, curso.name)}} href="/AcademicChief/viewcourse" key = {curso.id}>
                     <div >
                             <div className="card cardMargin">
                                 <div className="card-body">
@@ -478,7 +479,7 @@ export default function Perfil(){
                         <h4>Cursos Creados</h4>
                         <div className='course-list-container'>
                             {list2.map((curso:any)=>
-                            <Link onClick={()=>{handleClickJefe(curso.id, curso.name)}} href="/AcademicChief/viewcourse" key = {curso.id}>
+                            <Link onClick={()=>{handleClickJefe(curso.course_id, curso.name)}} href="/AcademicChief/viewcourse" key = {curso.id}>
                             <div>
                                 <div className="card cardMargin">
                                     <div className="card-body">

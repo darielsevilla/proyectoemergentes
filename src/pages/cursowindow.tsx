@@ -73,6 +73,7 @@ export default function Curso(){
     const load = () =>{
         let url = "http://localhost:3001/getUnits";
         const item = localStorage.getItem("currentCourse")
+        console.log(item)
         const body={
             courseId : item ? item : ""
         }
